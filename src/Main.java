@@ -5,6 +5,11 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+    // todo
+
+
+    // TODO: ۲۱/۰۶/۲۰۲۱ png : set size to btn.size
+    // TODO: ۲۰/۰۶/۲۰۲۱  testing with the real game . the same moves !!!
 
     public static void main(String[] args) {
         launch(args);
