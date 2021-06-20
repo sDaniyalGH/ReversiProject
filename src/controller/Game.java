@@ -87,7 +87,7 @@ public class Game implements Initializable {
                 button.setMaxWidth(Double.MAX_VALUE);
                 button.setPrefHeight(Double.MAX_VALUE);
 
-                button.setStyle("-fx-background-image: url('/Images/empty.png')");
+               // button.setStyle("-fx-background-image: url('/Images/empty.png')");
 
                 buttonArr[i][j] = button;
 
@@ -111,7 +111,7 @@ public class Game implements Initializable {
                 gridPane.add( buttonArr[i][j], i , j , 1 , 1);
             }
         }
-        gridPane.setGridLinesVisible(true);
+       // gridPane.setGridLinesVisible(true);
 
 
         for (int i = 0; i < size; i++) {
