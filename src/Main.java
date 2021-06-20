@@ -8,6 +8,8 @@ public class Main extends Application {
     // todo
 
 
+    // TODO: ۲۱/۰۶/۲۰۲۱ if cant move --> turn passed
+    // TODO: ۲۱/۰۶/۲۰۲۱ if all white --> win white
     // TODO: ۲۱/۰۶/۲۰۲۱ png : set size to btn.size
     // TODO: ۲۰/۰۶/۲۰۲۱  testing with the real game . the same moves !!!
 

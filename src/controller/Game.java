@@ -39,25 +39,36 @@ public class Game implements Initializable {
 
         ArrayList<CellNeighbor> hamsayeHa = new ArrayList<>();
 
-        int I = i-1;
-        int J = j-1;
+        int I;
+        int J;
+
+        if (i != 0 && j != 0){
+        I = i - 1;
+        J = j - 1;
         if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J , Direction.downRight);
+            CellNeighbor position1 = new CellNeighbor(I, J, Direction.downRight);
             hamsayeHa.add(position1);
+        }
+    }
+
+        if (i != 0 ) {
+
+            I = i - 1;
+            J = j;
+            if (I >= 0 && I < size && J >= 0 && J < size) {
+                CellNeighbor position1 = new CellNeighbor(I, J, Direction.down);
+                hamsayeHa.add(position1);
+            }
         }
 
-        I = i-1;
-        J = j;
-        if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J , Direction.down);
-            hamsayeHa.add(position1);
-        }
+        if (i != 0 && j != size-1){
 
         I = i-1;
         J = j+1;
         if (I >= 0 && I < size && J >= 0 && J < size) {
             CellNeighbor position1 = new CellNeighbor(I, J , Direction.downLeft);
             hamsayeHa.add(position1);
+        }
         }
 
         I = i;
@@ -153,7 +164,7 @@ public class Game implements Initializable {
                                                 } else if (stringScreen[currentI][currentJ].equals("e")) {
                                                     break;
                                                 }
-                                        }
+                                        } else break;
 
                                         }
                                         break;
@@ -176,7 +187,7 @@ public class Game implements Initializable {
                                                 } else if (stringScreen[currentI][currentJ].equals("e")) {
                                                     break;
                                                 }
-                                            }
+                                            } else break;
 
                                         }
                                         break;
@@ -200,7 +211,7 @@ public class Game implements Initializable {
                                                 } else if (stringScreen[currentI][currentJ].equals("e")) {
                                                     break;
                                                 }
-                                            }
+                                            } else break;
 
                                         }
                                         break;
@@ -223,7 +234,7 @@ public class Game implements Initializable {
                                                 } else if (stringScreen[currentI][currentJ].equals("e")) {
                                                     break;
                                                 }
-                                            }
+                                            } else break;
 
                                         }
                                         break;
@@ -245,7 +256,7 @@ public class Game implements Initializable {
                                                 } else if (stringScreen[currentI][currentJ].equals("e")) {
                                                     break;
                                                 }
-                                            }
+                                            } else break;
 
                                         }
                                         break;
@@ -268,9 +279,10 @@ public class Game implements Initializable {
                                                 } else if (stringScreen[currentI][currentJ].equals("e")) {
                                                     break;
                                                 }
-                                            }
+                                            } else break;
 
-                                        }
+
+                                    }
                                         break;
 
                                     }
@@ -290,9 +302,10 @@ public class Game implements Initializable {
                                                 } else if (stringScreen[currentI][currentJ].equals("e")) {
                                                     break;
                                                 }
-                                            }
+                                            }  else break;
 
-                                        }
+
+                                    }
                                         break;
 
                                     }
@@ -313,7 +326,7 @@ public class Game implements Initializable {
                                                 } else if (stringScreen[currentI][currentJ].equals("e")) {
                                                     break;
                                                 }
-                                            }
+                                            } else break;
 
                                         }
                                         break;
@@ -328,21 +341,13 @@ public class Game implements Initializable {
                                 if (status) {
                                     canSelected.add(posHamsaye);
                                     stringScreen[posHamsaye.getI()][posHamsaye.getJ()] = "c";
-                                    syncArrs();
                                 }
-
-
                             }
-
                         }
-
-
                     }
-
                 }
             }
-
-
+        syncArrs();
 
     }
 
@@ -481,6 +486,12 @@ public class Game implements Initializable {
             stringScreen[4][4] = "b";
             stringScreen[3][4] = "w";
             stringScreen[4][3] = "w";
+
+
+//            stringScreen[1][2] = "b";
+//            stringScreen[3][1] = "w";
+//            stringScreen[3][2] = "w";
+//            stringScreen[3][3] = "w";
 
             syncArrs();
             setCanSelectedBtn();
