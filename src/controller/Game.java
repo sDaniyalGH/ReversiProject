@@ -84,9 +84,10 @@ public class Game implements Initializable {
             for (int j = 0; j < size; j++) {
 
                 Button button = new Button("");
+                button.setMaxWidth(Double.MAX_VALUE);
+                button.setPrefHeight(Double.MAX_VALUE);
+
                 button.setStyle("-fx-background-image: url('/Images/empty.png')");
-                button.setPrefWidth(500);
-                button.setPrefHeight(500);
 
                 buttonArr[i][j] = button;
 
