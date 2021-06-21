@@ -1,19 +1,15 @@
 package controller;
 
 import Enum.*;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableValueBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import model.CellNeighbor;
-
-import javax.xml.soap.Text;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -24,13 +20,15 @@ public class Game implements Initializable {
     final int size = 8;
     @FXML private GridPane gridPane;
     @FXML private Label blackScoreTV;
-    @FXML private Label whiteScoreTV;    //private Cell cellScreen[][] = new Cell[size][size];
-    private String stringScreen[][] = new String[size][size];
+    @FXML private Label whiteScoreTV;
+    private String[][] stringScreen = new String[size][size];
     private Button[][] buttonArr = new Button[size][size];
     ArrayList<CellNeighbor> hamsayeHa;
     ArrayList<CellNeighbor> canSelected = new ArrayList<>();
     int whiteScore = 0;
     int blackScore = 0;
+    private ArrayList<String[][]> saveList = new ArrayList<>();
+    @FXML private Button undoBtn;
 
 
 
@@ -354,6 +352,7 @@ public class Game implements Initializable {
                     }
                 }
             }
+
         syncArrs();
 
             if (canSelected.size() == 0 && whiteScore + blackScore != size*size){
@@ -394,18 +393,71 @@ public class Game implements Initializable {
 
                 }
                 else if (stringScreen[i][j].equals("w")) {
-                    //cellScreen[i][j].setType(Type.white);
                     buttonArr[i][j].setStyle("-fx-background-image: url('/Images/white.png')");
 
                 }
                 else if (stringScreen[i][j].equals("c")) {
-                    //cellScreen[i][j].setType(Type.canSelected);
                     buttonArr[i][j].setStyle("-fx-background-image: url('/Images/canSelected.png')");
 
                 }
             }
         }
 
+
+
+
+
+    }
+
+
+    @FXML void undoClick(MouseEvent event) {
+
+        Turn thisTurn = currentTurn;
+        if (saveList.size() > 0) {
+
+
+            // copy previous screen to current screen
+            for (int k = 0; k < size; k++) {
+                for (int l = 0; l < size; l++) {
+
+                    stringScreen[k][l] = saveList.get(saveList.size()-1)[k][l];
+                }
+            }
+
+
+            saveList.remove(saveList.size() - 1);
+
+
+
+            // canSelected -->empty
+            for (int k = 0; k < size; k++) {
+                for (int l = 0; l < size; l++) {
+
+                    if (stringScreen[k][l].equals("c")){
+                        stringScreen[k][l] = "e";
+                    }
+
+                }
+            }
+
+            toggleTurn();
+            syncArrs();
+            hamsayeHa.clear();
+            canSelected.clear();
+            countScore();
+            setCanSelectedBtn();
+
+
+            if (thisTurn == Turn.black)
+                currentTurn = Turn.white;
+            else
+                currentTurn = Turn.black;
+
+        }
+
+        if (saveList.size() == 0) {
+            undoBtn.setDisable(true);
+        }
 
     }
 
@@ -418,6 +470,19 @@ public class Game implements Initializable {
                     public void handle(ActionEvent event) {
 
                         if (stringScreen[i][j].equals("c")){
+
+                            // save screen
+                            String[][] newStringScreen = new String[size][size];
+                            for (int k = 0; k < size; k++) {
+                                for (int l = 0; l < size; l++) {
+
+                                    newStringScreen[k][l] = stringScreen[k][l];
+                                }
+                            }
+                            saveList.add(newStringScreen);
+                            undoBtn.setDisable(false);
+
+
 
 
                             String current;
@@ -461,6 +526,9 @@ public class Game implements Initializable {
                             canSelected.clear();
                             countScore();
                             setCanSelectedBtn();
+
+
+
 
 
                         }
@@ -574,9 +642,9 @@ public class Game implements Initializable {
 
 
 
-            syncArrs();
             setCanSelectedBtn();
             countScore();
+
 
 
 

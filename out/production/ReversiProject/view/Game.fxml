@@ -50,7 +50,7 @@
                             <children>
                                 <HBox alignment="CENTER" prefWidth="196.0" spacing="20.0">
                                     <children>
-                                        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Withdraw" />
+                                        <Button fx:id="undoBtn" disable="true" mnemonicParsing="false" onMouseClicked="#undoClick" prefHeight="25.0" prefWidth="70.0" text="Undo" />
                                     </children>
                                 </HBox>
                             </children>
