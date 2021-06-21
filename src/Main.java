@@ -8,6 +8,8 @@ public class Main extends Application {
     // todo
 
 
+    // TODO: ۲۱/۰۶/۲۰۲۱ winnig bashokooh
+    // TODO: ۲۱/۰۶/۲۰۲۱ animation baraye chrkhidan mohre az siah b sefid
     // TODO: ۲۱/۰۶/۲۰۲۱ if cant move --> turn passed
     // TODO: ۲۱/۰۶/۲۰۲۱ if all white --> win white
     // TODO: ۲۱/۰۶/۲۰۲۱ png : set size to btn.size

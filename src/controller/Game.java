@@ -1,15 +1,19 @@
 package controller;
 
 import Enum.*;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValueBase;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import model.CellNeighbor;
 
+import javax.xml.soap.Text;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -19,11 +23,14 @@ public class Game implements Initializable {
     Turn currentTurn = Turn.black;
     final int size = 8;
     @FXML private GridPane gridPane;
-    //private Cell cellScreen[][] = new Cell[size][size];
+    @FXML private Label blackScoreTV;
+    @FXML private Label whiteScoreTV;    //private Cell cellScreen[][] = new Cell[size][size];
     private String stringScreen[][] = new String[size][size];
     private Button[][] buttonArr = new Button[size][size];
     ArrayList<CellNeighbor> hamsayeHa;
     ArrayList<CellNeighbor> canSelected = new ArrayList<>();
+    int whiteScore = 0;
+    int blackScore = 0;
 
 
 
@@ -349,6 +356,27 @@ public class Game implements Initializable {
             }
         syncArrs();
 
+            if (canSelected.size() == 0 && whiteScore + blackScore != size*size){
+
+                toggleTurn();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                String msg = "Turn Passed !! turn : ";
+
+                if (currentTurn == Turn.black)
+                    msg += "black";
+                else
+                    msg += "white";
+                alert.setContentText(msg);
+                alert.showAndWait();
+                if (alert.getResult().equals(ButtonType.OK)){
+                    setCanSelectedBtn();
+                    countScore();
+
+                }
+
+            }
+
     }
 
 
@@ -431,7 +459,9 @@ public class Game implements Initializable {
                             syncArrs();
                             hamsayeHa.clear();
                             canSelected.clear();
+                            countScore();
                             setCanSelectedBtn();
+
 
                         }
                     }
@@ -439,8 +469,67 @@ public class Game implements Initializable {
 
     }
 
+    void countScore (){
+
+        blackScore = 0;
+        whiteScore = 0;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+
+                if (stringScreen[i][j].equals("b"))
+                    blackScore++;
+                else if (stringScreen[i][j].equals("w"))
+                    whiteScore++;
+            }
+        }
+
+        whiteScoreTV.setText(String.valueOf(whiteScore));
+        blackScoreTV.setText(String.valueOf(blackScore));
+
+        // check winner
+        if (whiteScore + blackScore == size*size){
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            if (whiteScore > blackScore){
+                // white wins
+                alert.setContentText("White wins");
+
+            } else if (blackScore > whiteScore){
+                // black wins
+                alert.setContentText("Black wins");
+
+            } else {
+                // draw match
+                alert.setContentText("Draw Match");
+
+            }
+
+            alert.show();
+        }
+
+        if (whiteScore == 0){
+
+            //black wins
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("Black wins");
+            alert.show();
+
+        }
+        else if (blackScore == 0){
+
+            //white wins
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setContentText("white wins");
+            alert.show();
+
+        }
+
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
 
 
         // fill the arrs
@@ -450,9 +539,6 @@ public class Game implements Initializable {
                 Button button = new Button("");
                 button.setMaxWidth(Double.MAX_VALUE);
                 button.setPrefHeight(Double.MAX_VALUE);
-
-
-               // button.setStyle("-fx-background-image: url('/Images/empty.png')");
 
                 buttonArr[i][j] = button;
 
@@ -478,7 +564,6 @@ public class Game implements Initializable {
                 gridPane.add( buttonArr[i][j], i , j , 1 , 1);
             }
         }
-       // gridPane.setGridLinesVisible(true);
 
 
 
@@ -488,15 +573,10 @@ public class Game implements Initializable {
             stringScreen[4][3] = "w";
 
 
-//            stringScreen[1][2] = "b";
-//            stringScreen[3][1] = "w";
-//            stringScreen[3][2] = "w";
-//            stringScreen[3][3] = "w";
 
             syncArrs();
             setCanSelectedBtn();
-            //buttonClicked();
-
+            countScore();
 
 
 

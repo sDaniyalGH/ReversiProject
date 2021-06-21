@@ -25,15 +25,18 @@
                     <children>
                         <HBox alignment="CENTER" spacing="5.0">
                             <children>
-                                <Label text="Time Left :" />
-                                <Label text="0 s" />
+                        <Label fx:id="blackScoreTV" layoutX="140.0" layoutY="11.0" />
                                 <Circle accessibleRole="TEXT_FIELD" radius="11.0" stroke="BLACK" strokeType="INSIDE">
                                     <HBox.margin>
-                                        <Insets left="20.0" />
+                                        <Insets left="5.0" />
                                     </HBox.margin>
                                 </Circle>
                                 <Label text="vs" />
-                                <Circle accessibleRole="TEXT_FIELD" fill="WHITE" layoutX="88.0" layoutY="21.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
+                                <Circle accessibleRole="TEXT_FIELD" fill="WHITE" layoutX="88.0" layoutY="21.0" radius="11.0" stroke="BLACK" strokeType="INSIDE">
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin></Circle>
+                        <Label fx:id="whiteScoreTV" />
                             </children>
                         </HBox>
                         <ListView prefHeight="383.0" prefWidth="201.0" />
