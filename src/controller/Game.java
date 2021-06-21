@@ -10,6 +10,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import model.CellNeighbor;
+import model.Users;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -21,6 +23,8 @@ public class Game implements Initializable {
     @FXML private GridPane gridPane;
     @FXML private Label blackScoreTV;
     @FXML private Label whiteScoreTV;
+    @FXML private Label blackUserName;
+    @FXML private Label whiteUserName;
     private String[][] stringScreen = new String[size][size];
     private Button[][] buttonArr = new Button[size][size];
     ArrayList<CellNeighbor> hamsayeHa;
@@ -30,7 +34,24 @@ public class Game implements Initializable {
     private ArrayList<String[][]> saveList = new ArrayList<>();
     @FXML private Button undoBtn;
 
+    void getUsers(ArrayList<Users> users){
 
+        if (users.get(0).getColor().equals("Black")){
+            this.blackUserName.setText(users.get(0).getUsername());
+            this.whiteUserName.setText(users.get(1).getUsername());
+
+            this.blackScoreTV.setText(String.valueOf(users.get(0).getScore()));
+            this.whiteScoreTV.setText(String.valueOf(users.get(1).getScore()));
+        }
+        else {
+            this.blackUserName.setText(users.get(1).getUsername());
+            this.whiteUserName.setText(users.get(0).getUsername());
+
+            this.blackScoreTV.setText(String.valueOf(users.get(1).getScore()));
+            this.whiteScoreTV.setText(String.valueOf(users.get(0).getScore()));
+        }
+
+    }
 
     void toggleTurn(){
 
