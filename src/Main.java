@@ -23,8 +23,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        // TODO: ۱۸/۰۶/۲۰۲۱ change it --> go to Menu.fxml
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/Game.fxml"));
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/Menu.fxml"));
         loader.load();
         Scene scene = new Scene(loader.getRoot());
         primaryStage.setScene(scene);
@@ -33,6 +32,7 @@ public class Main extends Application {
 
 
         });
+        primaryStage.setTitle("Login menu");
         primaryStage.show();
     }
 }

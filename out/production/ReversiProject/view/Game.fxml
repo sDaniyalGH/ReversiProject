@@ -17,25 +17,27 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Game">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Game">
     <children>
         <BorderPane prefHeight="637.0" prefWidth="929.0">
             <right>
                 <VBox prefHeight="380.0" prefWidth="201.0" spacing="10.0">
                     <children>
-                        <HBox alignment="CENTER" spacing="5.0">
+                        <HBox alignment="CENTER" spacing="10.0">
                             <children>
-                        <Label fx:id="blackScoreTV" layoutX="140.0" layoutY="11.0" />
                                 <Circle accessibleRole="TEXT_FIELD" radius="11.0" stroke="BLACK" strokeType="INSIDE">
                                     <HBox.margin>
-                                        <Insets left="5.0" />
+                                        <Insets />
                                     </HBox.margin>
                                 </Circle>
+                        <Label fx:id="blackUserName" />
+                        <Label fx:id="blackScoreTV" layoutX="140.0" layoutY="11.0" />
                                 <Label text="vs" />
                                 <Circle accessibleRole="TEXT_FIELD" fill="WHITE" layoutX="88.0" layoutY="21.0" radius="11.0" stroke="BLACK" strokeType="INSIDE">
                            <HBox.margin>
-                              <Insets right="5.0" />
+                              <Insets />
                            </HBox.margin></Circle>
+                        <Label fx:id="whiteUserName" />
                         <Label fx:id="whiteScoreTV" />
                             </children>
                         </HBox>
@@ -101,6 +103,7 @@
                      <items>
                         <MenuItem mnemonicParsing="false" text="Save " />
                         <MenuItem mnemonicParsing="false" text="Exit" />
+                        <MenuItem mnemonicParsing="false" text="About" />
                      </items>
                   </Menu>
               </menus>
