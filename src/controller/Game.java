@@ -9,14 +9,21 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.FileChooser;
 import model.CellNeighbor;
 import model.Users;
 
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
-public class Game implements Initializable {
+public class Game  {
 
     Turn currentTurn = Turn.black;
     final int size = 8;
@@ -33,23 +40,20 @@ public class Game implements Initializable {
     int blackScore = 0;
     private ArrayList<String[][]> saveList = new ArrayList<>();
     @FXML private Button undoBtn;
+    public Users userBlack = new Users("","",0);
+    public Users userWhite = new Users("","",0);
 
-    void getUsers(ArrayList<Users> users){
+    void getUsers(Users userBlack , Users userWhite){
 
-        if (users.get(0).getColor().equals("Black")){
-            this.blackUserName.setText(users.get(0).getUsername());
-            this.whiteUserName.setText(users.get(1).getUsername());
+        this.userBlack = userBlack;
+        this.userWhite = userWhite;
 
-            this.blackScoreTV.setText(String.valueOf(users.get(0).getScore()));
-            this.whiteScoreTV.setText(String.valueOf(users.get(1).getScore()));
-        }
-        else {
-            this.blackUserName.setText(users.get(1).getUsername());
-            this.whiteUserName.setText(users.get(0).getUsername());
+        this.blackUserName.setText(userBlack.getUsername());
+        this.whiteUserName.setText(userWhite.getUsername());
 
-            this.blackScoreTV.setText(String.valueOf(users.get(1).getScore()));
-            this.whiteScoreTV.setText(String.valueOf(users.get(0).getScore()));
-        }
+        this.blackScoreTV.setText(String.valueOf(userBlack.getScore()));
+        this.whiteScoreTV.setText(String.valueOf(userWhite.getScore()));
+
 
     }
 
@@ -533,15 +537,7 @@ public class Game implements Initializable {
 
 
                              // canSelected -->empty
-                            for (int k = 0; k < size; k++) {
-                                for (int l = 0; l < size; l++) {
-
-                                    if (stringScreen[k][l].equals("c")){
-                                        stringScreen[k][l] = "e";
-                                    }
-
-                                }
-                            }
+                            CStoEmpty();
                             syncArrs();
                             hamsayeHa.clear();
                             canSelected.clear();
@@ -616,8 +612,23 @@ public class Game implements Initializable {
         }
 
     }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+
+    // can Selected to Empty
+    void CStoEmpty (){
+
+        for (int k = 0; k < size; k++) {
+            for (int l = 0; l < size; l++) {
+
+                if (stringScreen[k][l].equals("c")){
+                    stringScreen[k][l] = "e";
+                }
+
+            }
+        }
+    }
+    public void newGameInit() {
+
+
 
 
 
@@ -669,5 +680,115 @@ public class Game implements Initializable {
 
 
 
+    }
+    public void loadInit(Scanner fileReader) {
+
+        // fill the arrs
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+
+                Button button = new Button("");
+                button.setMaxWidth(Double.MAX_VALUE);
+                button.setPrefHeight(Double.MAX_VALUE);
+                buttonArr[i][j] = button;
+
+                // if buuton clicked
+                buttonClicked(button , i , j );
+
+                String data = fileReader.next();
+                stringScreen[i][j] = data;
+
+            }
+        }
+        String usernameBlack = fileReader.next();
+        String usernameWhite = fileReader.next();
+
+        String turn = fileReader.next();
+        if (turn.equals("black"))
+            currentTurn = Turn.black;
+        else
+            currentTurn = Turn.white;
+
+        fileReader.close();
+        userBlack = new Users(usernameBlack , "Black" , 0);
+        userWhite = new Users(usernameWhite , "White" , 0);
+
+
+        getUsers(userBlack , userWhite);
+
+
+
+        //   init screen and add buttons to gridPane
+        gridPane.getChildren().clear();
+
+        gridPane.setAlignment(Pos.CENTER);
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+
+
+                gridPane.add( buttonArr[i][j], i , j , 1 , 1);
+            }
+        }
+
+
+
+
+
+
+        CStoEmpty();
+        setCanSelectedBtn();
+            countScore();
+
+
+
+
+    }
+
+    @FXML void clickSaveBtn(ActionEvent event) throws IOException {
+
+        // TODO: ۲۱/۰۶/۲۰۲۱ save names
+        // TODO: ۲۱/۰۶/۲۰۲۱ count scores after load game
+
+
+        // TODO: ۲۱/۰۶/۲۰۲۱ hash kardan file
+
+
+        // show window
+        JFrame parentFrame = new JFrame();
+
+        // file chooser
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Saving Game");
+
+
+        int userSelection = fileChooser.showSaveDialog(parentFrame);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+
+            String path = fileToSave.getAbsolutePath() + ".txt";
+            FileWriter fileWriter = new FileWriter(path);
+
+            for (int i = 0; i < size; i++) {
+                for (int j = 0; j < size; j++) {
+                    fileWriter.write(stringScreen[i][j] + " ");
+                }
+                //fileWriter.write("\n");
+            }
+
+            // black ... white
+            fileWriter.write(userBlack.getUsername() + " " + userWhite.getUsername() + " ");
+
+            String turn;
+
+            if (currentTurn.equals(Turn.black))
+                turn = "black";
+            else
+                turn = "white";
+
+            fileWriter.write(turn);
+            fileWriter.close();
+
+        }
     }
 }

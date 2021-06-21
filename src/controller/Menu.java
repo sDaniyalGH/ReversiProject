@@ -1,17 +1,23 @@
 package controller;
 
+import Enum.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Users;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class Menu implements Initializable {
 
@@ -33,12 +39,55 @@ public class Menu implements Initializable {
     @FXML private MenuItem playerWhite;
     @FXML private Label computerLabel;
     @FXML private Button startGameBTN2;
-    private ArrayList<Users> users;   // for 2v2 mode and computer mode
+   // private ArrayList<Users> users;   // for 2v2 mode and computer mode
+
+
+    @FXML
+    void loadBtnClicked(ActionEvent event) throws IOException {
+
+
+        FileChooser fileChooser = new FileChooser();
+
+        // must choose txt file
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("txt file","*.txt" ));
+
+        File file = fileChooser.showOpenDialog(null);
+
+        Scanner fileReader = null;
+        try {
+             fileReader = new Scanner(file);
+        } catch (Exception e){
+            System.out.println("File chooser opened but not choose file");
+        }
+
+        if (fileReader!= null) {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Game.fxml"));
+            loader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.getRoot()));
+            stage.setTitle("Reversi");
+            ((Stage) startGameBTN2.getScene().getWindow()).close();
+
+            stage.show();
+            Game controller = loader.getController();
+
+            controller.loadInit(fileReader);
+
+        }
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        startGameBTN1.setOnAction(event -> selectDualPersonMode());
+        startGameBTN1.setOnAction(event -> {
+            try {
+                selectDualPersonMode();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
         blackColor1.setOnAction(event -> player1Color.setText(blackColor1.getText()));
         blackColor2.setOnAction(event -> player2Color.setText(blackColor2.getText()));
@@ -53,33 +102,35 @@ public class Menu implements Initializable {
 
     }
 
-    public void selectDualPersonMode(){
+    public void selectDualPersonMode() throws IOException {
 
         if (dualPerson.isSelected()){
             if (checkIsUserEmpty() && checkEqualsUsers() && checkIsSelectedColor() && checkUsersWithColor() ){
-                users = new ArrayList<>();
+
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Game.fxml"));
+                loader.load();
+
+                Game controller = loader.getController();
 
                 Users user1 = new Users(player1Username.getText(), player1Color.getText(), 0);
-                users.add(user1);
                 Users user2 = new Users(player2Username.getText(), player2Color.getText(), 0);
-                users.add(user2);
+
+                if (user1.getColor().equals(Color.black))
+                    controller.getUsers(user1 , user2);
+
+                else
+                    controller.getUsers(user2 , user1);
 
                 dualPersonLabel.setText("");
 
                 ((Stage)startGameBTN2.getScene().getWindow()).close();
 
-                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Game.fxml"));
-                try {
-                    loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Game controller = loader.getController();
-                controller.getUsers(users);
                 Stage stage = new Stage();
                 stage.setScene(new Scene(loader.getRoot()));
                 stage.setTitle("Reversi");
+
                 stage.show();
+                controller.newGameInit();
 
             }
         }
@@ -88,37 +139,41 @@ public class Menu implements Initializable {
 
     public void selectComputerMode(){
 
-        if (withComputer.isSelected()){
-            if (checkIsUserEmptyComputerMode() && checkIsSelectedColorComputerMode()){
-                users = new ArrayList<>();
-                Users user = new Users(playerUsername.getText(), playerColor.getText(), 0);
-                users.add(user);
-                Users computer;
-                if (playerColor.getText().equals("Black")) {
-                    computer = new Users("Computer", "Black", 0);
-                }
-                else computer = new Users("Computer", "White", 0);
-                users.add(computer);
-
-                computerLabel.setText("");
-
-                ((Stage)startGameBTN2.getScene().getWindow()).close();
-
-                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Game.fxml"));
-                try {
-                    loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                Game controller = loader.getController();
-                controller.getUsers(users);
-                Stage stage = new Stage();
-                stage.setScene(new Scene(loader.getRoot()));
-                stage.setTitle("Reversi");
-                stage.show();
-
-            }
-        }
+//        if (withComputer.isSelected()){
+//            if (checkIsUserEmptyComputerMode() && checkIsSelectedColorComputerMode()){
+//                //users = new ArrayList<>();
+//                Users user = new Users(playerUsername.getText(), playerColor.getText(), 0);
+//
+//                // TODO: ۲۱/۰۶/۲۰۲۱ continue
+//                if (user.getColor().equals(Color.black)){
+//                    Users computer = new Users("Computer" , "White" , 0);
+//                }
+////                Users computer;
+////                if (playerColor.getText().equals("Black")) {
+////                    computer = new Users("Computer", "Black", 0);
+////                }
+////                else computer = new Users("Computer", "White", 0);
+////                users.add(computer);
+//
+//                computerLabel.setText("");
+//
+//                ((Stage)startGameBTN2.getScene().getWindow()).close();
+//
+//                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Game.fxml"));
+//                try {
+//                    loader.load();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                Game controller = loader.getController();
+//                controller.getUsers(users);
+//                Stage stage = new Stage();
+//                stage.setScene(new Scene(loader.getRoot()));
+//                stage.setTitle("Reversi");
+//                stage.show();
+//
+//            }
+//        }
 
     }
 

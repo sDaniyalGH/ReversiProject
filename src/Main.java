@@ -14,6 +14,9 @@ public class Main extends Application {
     // TODO: ۲۱/۰۶/۲۰۲۱ if all white --> win white
     // TODO: ۲۱/۰۶/۲۰۲۱ png : set size to btn.size
     // TODO: ۲۰/۰۶/۲۰۲۱  testing with the real game . the same moves !!!
+    // TODO: ۲۱/۰۶/۲۰۲۱ play gif for choose random between black and white
+
+    // TODO: ۲۱/۰۶/۲۰۲۱ big text that show turn is black or white
 
     public static void main(String[] args) {
         launch(args);

@@ -1,15 +1,22 @@
 package model;
+import Enum.*;
 
 public class Users {
 
     private String username;
-    private String Color;
+    private Color color;
     private int score = 2;
 
     public Users(String username, String color, int score){
         this.setUsername(username);
-        this.setColor(color);
+       // this.setColor(color);
         this.setScore(score);
+
+        if (color.equals("Black"))
+            this.color = Color.black;
+        else
+            this.color = Color.white;
+
     }
 
     public String getUsername() {
@@ -20,12 +27,13 @@ public class Users {
         this.username = username;
     }
 
-    public String getColor() {
-        return Color;
+
+    public Color getColor() {
+        return color;
     }
 
-    public void setColor(String color) {
-        Color = color;
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public int getScore() {

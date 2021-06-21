@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Game">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Game">
     <children>
         <BorderPane prefHeight="637.0" prefWidth="929.0">
             <right>
@@ -101,7 +101,7 @@
                 </Menu>
                   <Menu mnemonicParsing="false" text="Setting">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Save " />
+                        <MenuItem mnemonicParsing="false" onAction="#clickSaveBtn" text="Save " />
                         <MenuItem mnemonicParsing="false" text="Exit" />
                         <MenuItem mnemonicParsing="false" text="About" />
                      </items>
