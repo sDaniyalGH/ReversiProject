@@ -139,41 +139,35 @@ public class Menu implements Initializable {
 
     public void selectComputerMode(){
 
-//        if (withComputer.isSelected()){
-//            if (checkIsUserEmptyComputerMode() && checkIsSelectedColorComputerMode()){
-//                //users = new ArrayList<>();
-//                Users user = new Users(playerUsername.getText(), playerColor.getText(), 0);
-//
-//                // TODO: ۲۱/۰۶/۲۰۲۱ continue
+        if (withComputer.isSelected()){
+            if (checkIsUserEmptyComputerMode() && checkIsSelectedColorComputerMode()){
+                //users = new ArrayList<>();
+                Users user = new Users(playerUsername.getText(), playerColor.getText(), 0);
+
+                // TODO: ۲۱/۰۶/۲۰۲۱ continue
 //                if (user.getColor().equals(Color.black)){
 //                    Users computer = new Users("Computer" , "White" , 0);
 //                }
-////                Users computer;
-////                if (playerColor.getText().equals("Black")) {
-////                    computer = new Users("Computer", "Black", 0);
-////                }
-////                else computer = new Users("Computer", "White", 0);
-////                users.add(computer);
-//
-//                computerLabel.setText("");
-//
-//                ((Stage)startGameBTN2.getScene().getWindow()).close();
-//
-//                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Game.fxml"));
-//                try {
-//                    loader.load();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                Game controller = loader.getController();
-//                controller.getUsers(users);
-//                Stage stage = new Stage();
-//                stage.setScene(new Scene(loader.getRoot()));
-//                stage.setTitle("Reversi");
-//                stage.show();
-//
-//            }
-//        }
+
+                computerLabel.setText("");
+
+                ((Stage)startGameBTN2.getScene().getWindow()).close();
+
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/AI.fxml"));
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                AI controller = loader.getController();
+                controller.getUsers(user);
+                Stage stage = new Stage();
+                stage.setScene(new Scene(loader.getRoot()));
+                stage.setTitle("Reversi");
+                stage.show();
+
+            }
+        }
 
     }
 
