@@ -1,6 +1,9 @@
 package controller;
 import Enum.*;
 import animatefx.animation.*;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +22,7 @@ import java.util.Scanner;
 
 public class Game  {
 
+    @FXML private BorderPane container;
     Color currentTurn = Color.black;
     final int size = 8;
     @FXML private GridPane gridPane;
@@ -36,7 +40,9 @@ public class Game  {
     @FXML private Button undoBtn;
     public Users userBlack = new Users("","",0);
     public Users userWhite = new Users("","",0);
-
+    @FXML private ListView msgListView;
+    @FXML private TextField msgTextField;
+    @FXML private VBox vBoxRight;
     void getUsers(Users userBlack , Users userWhite){
 
         this.userBlack = userBlack;
@@ -628,6 +634,11 @@ public class Game  {
 
 
 
+       // vBoxRight.prefWidthProperty().bind(container.widthProperty().multiply(0.4));
+
+      //  vBoxRight.setPrefWidth( vBoxRight.getPrefWidth()-200 );
+        //textArea.setPrefSize( Double.MAX_VALUE, Double.MAX_VALUE );
+        //textArea.setPrefSize( Double.MAX_VALUE, Double.MAX_VALUE );
 
         // fill the arrs
         for (int i = 0; i < size; i++) {
@@ -788,4 +799,22 @@ public class Game  {
 
         }
     }
+
+    @FXML void clickSendMsgBtn(ActionEvent event) {
+
+        Users currentUser;
+
+        if (userBlack.getColor().equals(currentTurn))
+            currentUser = userBlack;
+        else
+            currentUser = userWhite;
+
+        String msg = currentUser.getUsername() + " : " + msgTextField.getText();
+
+        msgListView.getItems().add(msg);
+
+        msgTextField.setText("");
+
+    }
+
 }
