@@ -2,17 +2,21 @@ package controller;
 
 import Enum.*;
 import animatefx.animation.Jello;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import model.CellNeighbor;
 import model.Users;
 
@@ -46,6 +50,8 @@ public class AI implements Initializable {
     @FXML private Button undoBtn;
     public Users player = new Users("","",0);
     public Users computer = new Users("Computer","",0);
+    @FXML private Button  backBtnai;
+
 
     void getUsers(Users player){
 
@@ -758,114 +764,42 @@ public class AI implements Initializable {
     }
 
 
-//    public void loadInit(Scanner fileReader) {
-//
-//        // fill the arrs
-//        for (int i = 0; i < size; i++) {
-//            for (int j = 0; j < size; j++) {
-//
-//                Button button = new Button("");
-//                button.setMaxWidth(Double.MAX_VALUE);
-//                button.setPrefHeight(Double.MAX_VALUE);
-//                buttonArr[i][j] = button;
-//
-//                // if buuton clicked
-//                buttonClicked(button , i , j );
-//
-//                String data = fileReader.next();
-//                stringScreen[i][j] = data;
-//
-//            }
-//        }
-//        String usernameBlack = fileReader.next();
-//        String usernameWhite = fileReader.next();
-//
-//        String turn = fileReader.next();
-//        if (turn.equals("black"))
-//            currentTurn = Color.black;
-//        else
-//            currentTurn = Color.white;
-//
-//        fileReader.close();
-//        userBlack = new Users(usernameBlack , "Black" , 0);
-//        userWhite = new Users(usernameWhite , "White" , 0);
-//
-//
-//        getUsers(userBlack , userWhite);
-//
-//
-//
-//        //   init screen and add buttons to gridPane
-//        gridPane.getChildren().clear();
-//
-//        gridPane.setAlignment(Pos.CENTER);
-//        for (int i = 0; i < size; i++) {
-//            for (int j = 0; j < size; j++) {
-//
-//
-//                gridPane.add( buttonArr[i][j], i , j , 1 , 1);
-//            }
-//        }
-//
-//
-//
-//
-//
-//
-//        CStoEmpty();
-//        setCanSelectedBtn();
-//            countScore();
-//
-//
-//
-//
-//    }
+    @FXML void backClickedai () throws IOException {
 
-//    @FXML void clickSaveBtn(ActionEvent event) throws IOException {
-//
-//        // TODO: ۲۱/۰۶/۲۰۲۱ save names
-//        // TODO: ۲۱/۰۶/۲۰۲۱ count scores after load game
-//
-//
-//        // TODO: ۲۱/۰۶/۲۰۲۱ hash kardan file
-//
-//
-//        // show window
-//        JFrame parentFrame = new JFrame();
-//
-//        // file chooser
-//        JFileChooser fileChooser = new JFileChooser();
-//        fileChooser.setDialogTitle("Saving Game");
-//
-//
-//        int userSelection = fileChooser.showSaveDialog(parentFrame);
-//
-//        if (userSelection == JFileChooser.APPROVE_OPTION) {
-//            File fileToSave = fileChooser.getSelectedFile();
-//
-//            String path = fileToSave.getAbsolutePath() + ".txt";
-//            FileWriter fileWriter = new FileWriter(path);
-//
-//            for (int i = 0; i < size; i++) {
-//                for (int j = 0; j < size; j++) {
-//                    fileWriter.write(stringScreen[i][j] + " ");
-//                }
-//                //fileWriter.write("\n");
-//            }
-//
-//            // black ... white
-//            fileWriter.write(userBlack.getUsername() + " " + userWhite.getUsername() + " ");
-//
-//            String turn;
-//
-//            if (currentTurn.equals(Color.black))
-//                turn = "black";
-//            else
-//                turn = "white";
-//
-//            fileWriter.write(turn);
-//            fileWriter.close();
-//
-//        }
-//    }
+        ((Stage)backBtnai.getScene().getWindow()).close();
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Menu.fxml"));
+        loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loader.getRoot()));
+        stage.setTitle("Reversi");
+
+        stage.show();
+
+
+
+
+    }
+    @FXML void exitBtnai(){
+
+        Platform.exit();
+
+    }
+    @FXML void aboutBtnClickedai(){
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.setTitle("About Us");
+        alert.setHeaderText("About Us");
+        alert.setContentText("AmirHossein Gharaati \n" +
+                "Seyed DaniyalGhoreyshi \n\n" +
+                "sponsored By SCU\n\n" +
+                "v1.0.0");
+
+        alert.show();
+
+
+    }
+
+
+
 }

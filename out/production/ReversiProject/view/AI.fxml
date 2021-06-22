@@ -3,11 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -39,13 +34,6 @@
                            </HBox.margin></Circle>
                         <Label fx:id="whiteUserName" />
                         <Label fx:id="whiteScoreTV" />
-                            </children>
-                        </HBox>
-                        <ListView prefHeight="383.0" prefWidth="201.0" />
-                        <HBox alignment="CENTER" spacing="5.0">
-                            <children>
-                                <TextField prefHeight="25.0" prefWidth="154.0" promptText="Type to chat..." />
-                                <Button mnemonicParsing="false" text="send" />
                             </children>
                         </HBox>
                         <VBox alignment="CENTER" prefHeight="45.0" prefWidth="201.0" spacing="15.0">
@@ -91,23 +79,16 @@
                 </GridPane>
             </center>
          <top>
-            <MenuBar BorderPane.alignment="CENTER">
-              <menus>
-                <Menu mnemonicParsing="false" text="File">
-                  <items>
-                    <MenuItem mnemonicParsing="false" text="New game" />
-                        <MenuItem mnemonicParsing="false" text="Load game" />
-                  </items>
-                </Menu>
-                  <Menu mnemonicParsing="false" text="Setting">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Save " />
-                        <MenuItem mnemonicParsing="false" text="Exit" />
-                        <MenuItem mnemonicParsing="false" text="About" />
-                     </items>
-                  </Menu>
-              </menus>
-            </MenuBar>
+            <HBox prefHeight="46.0" prefWidth="821.0" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button fx:id="backBtnai" mnemonicParsing="false" onAction="#backClickedai" text="back" />
+                  <Button layoutX="66.0" layoutY="10.0" mnemonicParsing="false" onAction="#aboutBtnClickedai" text="About" />
+                  <Button layoutX="148.0" layoutY="20.0" mnemonicParsing="false" onAction="#exitBtnai" text="Exit" />
+               </children>
+               <padding>
+                  <Insets left="10.0" top="10.0" />
+               </padding>
+            </HBox>
          </top>
         </BorderPane>
     </children>

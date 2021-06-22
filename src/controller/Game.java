@@ -1,16 +1,20 @@
 package controller;
 import Enum.*;
 import animatefx.animation.*;
+import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import model.CellNeighbor;
 import model.Users;
 import javax.swing.*;
@@ -43,6 +47,7 @@ public class Game  {
     @FXML private ListView msgListView;
     @FXML private TextField msgTextField;
     @FXML private VBox vBoxRight;
+    @FXML private Button  backBtn;
     void getUsers(Users userBlack , Users userWhite){
 
         this.userBlack = userBlack;
@@ -752,6 +757,21 @@ public class Game  {
 
     }
 
+    @FXML void backClicked () throws IOException {
+
+        ((Stage)backBtn.getScene().getWindow()).close();
+        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Menu.fxml"));
+        loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loader.getRoot()));
+        stage.setTitle("Reversi");
+
+        stage.show();
+
+
+
+
+    }
     @FXML void clickSaveBtn(ActionEvent event) throws IOException {
 
         // TODO: ۲۱/۰۶/۲۰۲۱ save names
@@ -798,6 +818,26 @@ public class Game  {
             fileWriter.close();
 
         }
+    }
+    @FXML void exitBtn(){
+
+        Platform.exit();
+
+    }
+    @FXML void aboutBtnClicked(){
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        alert.setTitle("About Us");
+        alert.setHeaderText("About Us");
+        alert.setContentText("AmirHossein Gharaati \n" +
+                "Seyed DaniyalGhoreyshi \n\n" +
+                "sponsored By SCU\n\n" +
+                "v1.0.0");
+
+        alert.show();
+
+
     }
 
     @FXML void clickSendMsgBtn(ActionEvent event) {
