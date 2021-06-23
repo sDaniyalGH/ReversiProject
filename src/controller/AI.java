@@ -51,6 +51,8 @@ public class AI implements Initializable {
     public Users player = new Users("","",0);
     public Users computer = new Users("Computer","",0);
     @FXML private Button  backBtnai;
+    @FXML private Button  aboutBTN;
+    @FXML private Button exitBTN;
 
 
     void getUsers(Users player){
@@ -709,8 +711,11 @@ public class AI implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-
+        backBtnai.setStyle("-fx-background-image: url('/Images/back.png')");
+       // saveBTN.setStyle("-fx-background-image: url('/Images/save.png')");
+        aboutBTN.setStyle("-fx-background-image: url('/Images/about.png')");
+        exitBTN.setStyle("-fx-background-image: url('/Images/exit.png')");
+        undoBtn.setStyle("-fx-background-image: url('/Images/undo.png')");
 
 
         // fill the arrs
@@ -735,6 +740,8 @@ public class AI implements Initializable {
 
 
         //   init screen and add buttons to gridPane
+        gridPane.setMaxWidth(560);
+        gridPane.setMaxHeight(560);
         gridPane.getChildren().clear();
 
         gridPane.setAlignment(Pos.CENTER);

@@ -14,6 +14,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.CellNeighbor;
 import model.Users;
@@ -47,7 +51,14 @@ public class Game  {
     @FXML private ListView msgListView;
     @FXML private TextField msgTextField;
     @FXML private VBox vBoxRight;
-    @FXML private Button  backBtn;
+    @FXML private Button backBtn;
+    @FXML private Button saveBTN;
+    @FXML private Button aboutBTN;
+    @FXML private Button exitBTN;
+    @FXML private Button sendBTN;
+    @FXML private StackPane stackPane;
+    @FXML private MediaView mediaView;
+
     void getUsers(Users userBlack , Users userWhite){
 
         this.userBlack = userBlack;
@@ -636,14 +647,28 @@ public class Game  {
     }
     public void newGameInit() {
 
+        backBtn.setStyle("-fx-background-image: url('/Images/back.png')");
+        saveBTN.setStyle("-fx-background-image: url('/Images/save.png')");
+        aboutBTN.setStyle("-fx-background-image: url('/Images/about.png')");
+        exitBTN.setStyle("-fx-background-image: url('/Images/exit.png')");
+        undoBtn.setStyle("-fx-background-image: url('/Images/undo.png')");
+        sendBTN.setStyle("-fx-background-image: url('/Images/send.png')");
 
+      //  stackPane.setStyle("-fx-background-color: #00A000");
+      //   stackPane.setStyle("-fx-background-image: url('/Images/green.jpg')");
 
+//        MediaView mediaView = new MediaView();
+//        stackPane.getChildren().add(mediaView);
+//        mediaView.fitHeightProperty().bind(stackPane.heightProperty());
+//        mediaView.fitWidthProperty().bind(stackPane.widthProperty());
+//
+//
+//        File file = new File("C:/Users/AmirHosein/OneDrive/Desktop/gif");
+//        String mediaUrl = file.toURI().toString();
+//        Media media = new Media(mediaUrl);
+//        MediaPlayer mediaPlayer = new MediaPlayer(media);
+//        mediaView.setMediaPlayer(mediaPlayer);
 
-       // vBoxRight.prefWidthProperty().bind(container.widthProperty().multiply(0.4));
-
-      //  vBoxRight.setPrefWidth( vBoxRight.getPrefWidth()-200 );
-        //textArea.setPrefSize( Double.MAX_VALUE, Double.MAX_VALUE );
-        //textArea.setPrefSize( Double.MAX_VALUE, Double.MAX_VALUE );
 
         // fill the arrs
         for (int i = 0; i < size; i++) {
@@ -667,6 +692,8 @@ public class Game  {
 
 
         //   init screen and add buttons to gridPane
+        gridPane.setMaxWidth(560);
+        gridPane.setMaxHeight(560);
         gridPane.getChildren().clear();
 
         gridPane.setAlignment(Pos.CENTER);
