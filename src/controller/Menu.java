@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Users;
@@ -39,6 +40,7 @@ public class Menu implements Initializable {
     @FXML private MenuItem playerWhite;
     @FXML private Label computerLabel;
     @FXML private Button startGameBTN2;
+    @FXML private AnchorPane anchorPane;
    // private ArrayList<Users> users;   // for 2v2 mode and computer mode
 
 
@@ -80,6 +82,8 @@ public class Menu implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        anchorPane.getStylesheets().add(String.valueOf(this.getClass().getResource("../Graphic/MenuGraphic.css")));
 
         startGameBTN1.setOnAction(event -> {
             try {
