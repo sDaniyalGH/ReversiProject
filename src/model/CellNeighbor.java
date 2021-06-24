@@ -7,20 +7,22 @@ public class CellNeighbor {
 
     int i;
     int j;
-    Direction move;
+    ArrayList<Direction> move;
     ArrayList<CellNeighbor> reverseBaze;
 
     public CellNeighbor(int i , int j){
         this.i = i;
         this.j = j;
         reverseBaze = new ArrayList<>();
+        move = new ArrayList<>();
     }
-    public CellNeighbor(int i , int j , Direction move){
-        this.i = i;
-        this.j = j;
-        this.move = move;
-        reverseBaze = new ArrayList<>();
-    }
+
+//    public CellNeighbor(int i , int j , Direction move){
+//        this.i = i;
+//        this.j = j;
+//        this.move = move;
+//        reverseBaze = new ArrayList<>();
+//    }
 
     public int getI() {
         return i;
@@ -34,12 +36,15 @@ public class CellNeighbor {
     public void setJ(int j) {
         this.j = j;
     }
-    public Direction getMove() {
+
+    public ArrayList<Direction> getMove() {
         return move;
     }
-    public void setMove(Direction move) {
+
+    public void setMove(ArrayList<Direction> move) {
         this.move = move;
     }
+
     public ArrayList<CellNeighbor> getReverseBaze() {
         return reverseBaze;
     }

@@ -40,7 +40,7 @@ public class Game  {
     @FXML private Label whiteUserName;
     private String[][] stringScreen = new String[size][size];
     private Button[][] buttonArr = new Button[size][size];
-    ArrayList<CellNeighbor> hamsayeHa;
+    ArrayList<CellNeighbor> hamsayeHa = new ArrayList<>();
     ArrayList<CellNeighbor> canSelected = new ArrayList<>();
     int whiteScore = 0;
     int blackScore = 0;
@@ -73,6 +73,16 @@ public class Game  {
 
     }
 
+    void condition (int I , int J){
+
+        if (I >= 0 && I < size && J >= 0 && J < size && stringScreen[I][J].equals("e")) {
+
+            CellNeighbor position1 = new CellNeighbor(I, J );
+            hamsayeHa.add(position1);
+
+        }
+
+    }
     void toggleTurn(){
 
         if (currentTurn == Color.black)
@@ -83,7 +93,7 @@ public class Game  {
     // return hamsayeHaye node
     ArrayList<CellNeighbor> findHamsayeHa (int i , int j) {
 
-        ArrayList<CellNeighbor> hamsayeHa = new ArrayList<>();
+        //hamsayeHa = new ArrayList<>();
 
         int I;
         int J;
@@ -91,65 +101,51 @@ public class Game  {
         if (i != 0 && j != 0){
         I = i - 1;
         J = j - 1;
-        if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J, Direction.downRight);
-            hamsayeHa.add(position1);
+            condition(I,J);
         }
-    }
 
         if (i != 0 ) {
 
             I = i - 1;
             J = j;
-            if (I >= 0 && I < size && J >= 0 && J < size) {
-                CellNeighbor position1 = new CellNeighbor(I, J, Direction.down);
-                hamsayeHa.add(position1);
-            }
+            condition(I,J);
         }
 
         if (i != 0 && j != size-1){
 
         I = i-1;
         J = j+1;
-        if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J , Direction.downLeft);
-            hamsayeHa.add(position1);
-        }
+            condition(I,J);
         }
 
-        I = i;
-        J = j-1;
-        if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J , Direction.right);
-            hamsayeHa.add(position1);
+        if (j!= 0) {
+            I = i;
+            J = j - 1;
+            condition(I, J);
         }
 
-        I = i;
-        J = j+1;
-        if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J , Direction.left);
-            hamsayeHa.add(position1);
+        if (j!= size-1) {
+            I = i;
+            J = j + 1;
+            condition(I, J);
         }
 
-        I = i+1;
-        J = j-1;
-        if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J , Direction.topRight);
-            hamsayeHa.add(position1);
+        if (i!=size-1 && j!=0) {
+            I = i + 1;
+            J = j - 1;
+            condition(I, J);
         }
 
-        I = i+1;
-        J = j;
-        if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J , Direction.top);
-            hamsayeHa.add(position1);
+        if (i!=size-1 ) {
+            I = i + 1;
+            J = j;
+            condition(I, J);
         }
 
-        I = i+1;
-        J = j+1;
-        if (I >= 0 && I < size && J >= 0 && J < size) {
-            CellNeighbor position1 = new CellNeighbor(I, J , Direction.topLeft);
-            hamsayeHa.add(position1);
+        if (i!= size-1 && j!= size-1) {
+            I = i + 1;
+            J = j + 1;
+            condition(I, J);
         }
 
         return hamsayeHa;
@@ -171,13 +167,18 @@ public class Game  {
 
         }
 
+
             for (int i = 0; i < size; i++) {
                 for (int j = 0; j < size; j++) {
 
-                    if (stringScreen[i][j].equals(zed)){
+                    if (stringScreen[i][j].equals(zed)) {
 
 
-                        hamsayeHa = findHamsayeHa(i,j);
+                        hamsayeHa = findHamsayeHa(i, j);
+
+                    }
+                }
+            }
 
                         // find empty hamsayeHa
                         for (CellNeighbor posHamsaye : hamsayeHa) {
@@ -186,213 +187,262 @@ public class Game  {
 
                                 // check : can it be selected ?
                                 boolean status = false;
-                                int currentI = posHamsaye.getI();
-                                int currentJ = posHamsaye.getJ();
-
-                                switch (posHamsaye.getMove()){
-
-                                    case downRight: {
-
-                                        while (true) {
-
-                                            currentI++;
-                                            currentJ++;
+                                int I = posHamsaye.getI();
+                                int J = posHamsaye.getJ();
 
 
-                                            if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
-                                                if (stringScreen[currentI][currentJ].equals(zed)) {
-                                                    CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
-                                                    posHamsaye.getReverseBaze().add(reversedPos);
-                                                } else if (stringScreen[currentI][currentJ].equals(current)) {
+                                        int currentI = I;
+                                        int currentJ = J;
+                                        ArrayList<CellNeighbor> baze = new ArrayList<>();
 
-                                                    status = true;
-                                                    break;
-                                                } else if (stringScreen[currentI][currentJ].equals("e")) {
-                                                    break;
-                                                }
-                                        } else break;
+                                            while (true) {
 
-                                        }
-                                        break;
+                                                currentI++;
+                                                currentJ++;
 
-                                    }
+                                                if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
+                                                    if (stringScreen[currentI][currentJ].equals(zed)) {
+                                                        CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
+                                                        baze.add(reversedPos);
 
-                                    case down: {
+                                                    } else if (stringScreen[currentI][currentJ].equals(current)) {
 
-                                        while (true){
+                                                        status = true;
 
-                                            currentI++;
-
-                                            if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
-                                                if (stringScreen[currentI][currentJ].equals(zed)) {
-                                                    CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
-                                                    posHamsaye.getReverseBaze().add(reversedPos);
-                                                } else if (stringScreen[currentI][currentJ].equals(current)) {
-                                                    status = true;
-                                                    break;
-                                                } else if (stringScreen[currentI][currentJ].equals("e")) {
-                                                    break;
-                                                }
-                                            } else break;
-
-                                        }
-                                        break;
-
-                                    }
-
-                                    case downLeft: {
-
-                                        while (true){
-
-                                            currentI++;
-                                            currentJ--;
-
-                                            if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
-                                                if (stringScreen[currentI][currentJ].equals(zed)) {
-                                                    CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
-                                                    posHamsaye.getReverseBaze().add(reversedPos);
-                                                } else if (stringScreen[currentI][currentJ].equals(current)) {
-                                                    status = true;
-                                                    break;
-                                                } else if (stringScreen[currentI][currentJ].equals("e")) {
-                                                    break;
-                                                }
-                                            } else break;
-
-                                        }
-                                        break;
-
-                                    }
-
-                                    case right: {
-
-                                        while (true){
-
-                                            currentJ++;
-
-                                            if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
-                                                if (stringScreen[currentI][currentJ].equals(zed)) {
-                                                    CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
-                                                    posHamsaye.getReverseBaze().add(reversedPos);
-                                                } else if (stringScreen[currentI][currentJ].equals(current)) {
-                                                    status = true;
-                                                    break;
-                                                } else if (stringScreen[currentI][currentJ].equals("e")) {
-                                                    break;
-                                                }
-                                            } else break;
-
-                                        }
-                                        break;
-
-                                    }
-                                    case left: {
-
-                                        while (true){
-
-                                            currentJ--;
-
-                                            if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
-                                                if (stringScreen[currentI][currentJ].equals(zed)) {
-                                                    CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
-                                                    posHamsaye.getReverseBaze().add(reversedPos);
-                                                } else if (stringScreen[currentI][currentJ].equals(current)) {
-                                                    status = true;
-                                                    break;
-                                                } else if (stringScreen[currentI][currentJ].equals("e")) {
-                                                    break;
-                                                }
-                                            } else break;
-
-                                        }
-                                        break;
-
-                                    }
-                                    case topRight: {
-
-                                        while (true){
-
-                                            currentJ++;
-                                            currentI--;
-
-                                            if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
-                                                if (stringScreen[currentI][currentJ].equals(zed)) {
-                                                    CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
-                                                    posHamsaye.getReverseBaze().add(reversedPos);
-                                                } else if (stringScreen[currentI][currentJ].equals(current)) {
-                                                    status = true;
-                                                    break;
-                                                } else if (stringScreen[currentI][currentJ].equals("e")) {
-                                                    break;
-                                                }
-                                            } else break;
+                                                        for (CellNeighbor cellNeighbor : baze) {
+                                                            posHamsaye.getReverseBaze().add(cellNeighbor);
+                                                        }
+                                                        break;
 
 
-                                    }
-                                        break;
+                                                    } else if (stringScreen[currentI][currentJ].equals("e") || stringScreen[currentI][currentJ].equals("c")) {
+                                                        break;
+                                                    }
+                                                } else break;
 
-                                    }
-                                    case top: {
+                                            }
 
-                                        while (true){
+                                        currentI = I;
+                                        currentJ = J;
+                                        baze.clear();
 
-                                            currentI--;
+                                            while (true){
 
-                                            if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
-                                                if (stringScreen[currentI][currentJ].equals(zed)) {
-                                                    CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
-                                                    posHamsaye.getReverseBaze().add(reversedPos);
-                                                } else if (stringScreen[currentI][currentJ].equals(current)) {
-                                                    status = true;
-                                                    break;
-                                                } else if (stringScreen[currentI][currentJ].equals("e")) {
-                                                    break;
-                                                }
-                                            }  else break;
+                                                currentI++;
+                                               // int currentJ = J;
 
 
-                                    }
-                                        break;
+                                                if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
+                                                    if (stringScreen[currentI][currentJ].equals(zed)) {
+                                                        CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
+                                                        baze.add(reversedPos);
+                                                    } else if (stringScreen[currentI][currentJ].equals(current)) {
+                                                        status = true;
 
-                                    }
-                                    case topLeft: {
+                                                        for (CellNeighbor cellNeighbor : baze) {
+                                                            posHamsaye.getReverseBaze().add(cellNeighbor);
+                                                        }
+                                                        break;
+                                                    } else if (stringScreen[currentI][currentJ].equals("e") || stringScreen[currentI][currentJ].equals("c")) {
+                                                        break;
+                                                    }
+                                                } else break;
 
-                                        while (true){
+                                            }
 
-                                            currentI--;
-                                            currentJ--;
+                                        currentI = I;
+                                        currentJ = J;
+                                        baze.clear();
 
-                                            if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
-                                                if (stringScreen[currentI][currentJ].equals(zed)) {
-                                                    CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
-                                                    posHamsaye.getReverseBaze().add(reversedPos);
-                                                } else if (stringScreen[currentI][currentJ].equals(current)) {
-                                                    status = true;
-                                                    break;
-                                                } else if (stringScreen[currentI][currentJ].equals("e")) {
-                                                    break;
-                                                }
-                                            } else break;
 
-                                        }
-                                        break;
+                                while (true){
 
-                                    }
+                                                //int currentI = I+1;
+                                                //int currentJ = J-1;
+
+                                                currentJ--;
+                                                currentI++;
+
+                                                if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
+                                                    if (stringScreen[currentI][currentJ].equals(zed)) {
+                                                        CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
+                                                        baze.add(reversedPos);
+                                                    } else if (stringScreen[currentI][currentJ].equals(current)) {
+                                                        status = true;
+
+                                                        for (CellNeighbor cellNeighbor : baze) {
+                                                            posHamsaye.getReverseBaze().add(cellNeighbor);
+                                                        }
+                                                        break;
+                                                    } else if (stringScreen[currentI][currentJ].equals("e") || stringScreen[currentI][currentJ].equals("c")) {
+                                                        break;
+                                                    }
+                                                } else break;
+
+                                            }
+                                        currentI = I;
+                                        currentJ = J;
+                                baze.clear();
 
 
 
+                                while (true){
 
-                                }
+                                               //int currentI = I;
+                                               // int currentJ = J+1;
+                                                currentJ++;
 
-                                if (status) {
+
+                                                if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
+                                                    if (stringScreen[currentI][currentJ].equals(zed)) {
+                                                        CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
+                                                        baze.add(reversedPos);
+                                                    } else if (stringScreen[currentI][currentJ].equals(current)) {
+                                                        status = true;
+
+                                                        for (CellNeighbor cellNeighbor : baze) {
+                                                            posHamsaye.getReverseBaze().add(cellNeighbor);
+                                                        }
+                                                        break;
+                                                    } else if (stringScreen[currentI][currentJ].equals("e") || stringScreen[currentI][currentJ].equals("c")) {
+                                                        break;
+                                                    }
+                                                } else break;
+
+                                            }
+                                        currentI = I;
+                                        currentJ = J;
+                                baze.clear();
+
+
+
+                                while (true){
+
+                                                //int currentI = I;
+                                                //int currentJ = J-1;
+
+                                                currentJ--;
+
+                                                if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
+                                                    if (stringScreen[currentI][currentJ].equals(zed)) {
+                                                        CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
+                                                        baze.add(reversedPos);
+                                                    } else if (stringScreen[currentI][currentJ].equals(current)) {
+                                                        status = true;
+
+                                                        for (CellNeighbor cellNeighbor : baze) {
+                                                            posHamsaye.getReverseBaze().add(cellNeighbor);
+                                                        }
+                                                        break;
+                                                    } else if (stringScreen[currentI][currentJ].equals("e") || stringScreen[currentI][currentJ].equals("c")) {
+                                                        break;
+                                                    }
+                                                } else break;
+
+                                            }
+                                        currentI = I;
+                                        currentJ = J;
+                                baze.clear();
+
+
+
+                                while (true){
+
+                                                //int currentI = I-1;
+                                               // int currentJ = J+1;
+
+                                                currentI--;
+                                                currentJ++;
+
+                                                if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
+                                                    if (stringScreen[currentI][currentJ].equals(zed)) {
+                                                        CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
+                                                        baze.add(reversedPos);
+                                                    } else if (stringScreen[currentI][currentJ].equals(current)) {
+                                                        status = true;
+
+                                                        for (CellNeighbor cellNeighbor : baze) {
+                                                            posHamsaye.getReverseBaze().add(cellNeighbor);
+                                                        }
+                                                        break;
+                                                    } else if (stringScreen[currentI][currentJ].equals("e") || stringScreen[currentI][currentJ].equals("c")) {
+                                                        break;
+                                                    }
+                                                } else break;
+
+
+                                            }
+                                        currentI = I;
+                                        currentJ = J;
+                                baze.clear();
+
+
+
+                                while (true){
+
+                                                //int currentI = I-1;
+                                               // int currentJ = J;
+
+                                                currentI--;
+
+                                                if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
+                                                    if (stringScreen[currentI][currentJ].equals(zed)) {
+                                                        CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
+                                                        baze.add(reversedPos);
+                                                    } else if (stringScreen[currentI][currentJ].equals(current)) {
+                                                        status = true;
+
+                                                        for (CellNeighbor cellNeighbor : baze) {
+                                                            posHamsaye.getReverseBaze().add(cellNeighbor);
+                                                        }
+                                                        break;
+                                                    } else if (stringScreen[currentI][currentJ].equals("e") || stringScreen[currentI][currentJ].equals("c")) {
+                                                        break;
+                                                    }
+                                                }  else break;
+
+
+                                            }
+                                        currentI = I;
+                                        currentJ = J;
+                                baze.clear();
+
+                                while (true){
+
+                                                //int currentI = I-1;
+                                               // int currentJ = J-1;
+
+
+                                                currentI--;
+                                                currentJ--;
+
+                                                if (currentI >= 0 && currentI < size && currentJ >= 0 && currentJ < size){
+                                                    if (stringScreen[currentI][currentJ].equals(zed)) {
+                                                        CellNeighbor reversedPos = new CellNeighbor(currentI , currentJ);
+                                                        baze.add(reversedPos);
+                                                    } else if (stringScreen[currentI][currentJ].equals(current)) {
+                                                        status = true;
+
+                                                        for (CellNeighbor cellNeighbor : baze) {
+                                                            posHamsaye.getReverseBaze().add(cellNeighbor);
+                                                        }
+                                                        break;
+                                                    } else if (stringScreen[currentI][currentJ].equals("e") || stringScreen[currentI][currentJ].equals("c")) {
+                                                        break;
+                                                    }
+                                                } else break;
+
+                                            }
+
+
+                                if (status && posHamsaye.getReverseBaze().size() > 0) {
                                     canSelected.add(posHamsaye);
                                     stringScreen[posHamsaye.getI()][posHamsaye.getJ()] = "c";
                                 }
                             }
                         }
-                    }
-                }
-            }
+
+
 
         syncArrs();
 
@@ -692,10 +742,13 @@ public class Game  {
 
 
 
-            stringScreen[3][3] = "b";
-            stringScreen[4][4] = "b";
-            stringScreen[3][4] = "w";
+            stringScreen[3][3] = "w";
+            stringScreen[4][4] = "w";
+            stringScreen[3][4] = "b";
             stringScreen[4][3] = "w";
+            stringScreen[4][2] = "w";
+            stringScreen[5][2] = "b";
+            stringScreen[5][3] = "w";
 
 
 
