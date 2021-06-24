@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AI">
+<StackPane fx:id="stackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AI">
     <children>
         <BorderPane fx:id="container" prefHeight="592.0" prefWidth="821.0">
             <center>
@@ -77,7 +77,7 @@
                                 <Button fx:id="backBtnai" mnemonicParsing="false" onAction="#backClickedai" prefHeight="30.0" prefWidth="30.0" />
                                 <Button fx:id="aboutBTN" mnemonicParsing="false" onAction="#aboutBtnClickedai" prefHeight="30.0" prefWidth="30.0" />
                                 <Button fx:id="exitBTN" mnemonicParsing="false" onAction="#exitBtnai" prefHeight="30.0" prefWidth="30.0" />
-                                <Button fx:id="undoBtn" disable="true" mnemonicParsing="false" onMouseClicked="#undoClick" prefHeight="30.0" prefWidth="31.0" />
+                                <Button fx:id="undoBtn" mnemonicParsing="false" onMouseClicked="#undoClick" prefHeight="30.0" prefWidth="31.0" />
                             </children>
                             <HBox.margin>
                                 <Insets top="23.0" />

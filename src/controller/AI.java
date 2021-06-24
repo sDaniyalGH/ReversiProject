@@ -2,6 +2,8 @@ package controller;
 
 import Enum.*;
 import animatefx.animation.Jello;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,19 +19,14 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.CellNeighbor;
 import model.Users;
-
-import javax.swing.*;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 public class AI implements Initializable {
 
@@ -473,19 +470,9 @@ public class AI implements Initializable {
             saveList.remove(saveList.size() - 1);
 
 
+            CStoEmpty();
+            currentTurn = player.getColor();
 
-            // canSelected -->empty
-            for (int k = 0; k < size; k++) {
-                for (int l = 0; l < size; l++) {
-
-                    if (stringScreen[k][l].equals("c")){
-                        stringScreen[k][l] = "e";
-                    }
-
-                }
-            }
-
-            toggleTurn();
             syncArrs();
             hamsayeHa.clear();
             canSelected.clear();
@@ -493,22 +480,22 @@ public class AI implements Initializable {
             setCanSelectedBtn();
 
 
-            if (thisTurn == Color.black)
-                currentTurn = Color.white;
-            else
-                currentTurn = Color.black;
+
+
 
         }
 
-        if (saveList.size() == 0) {
-            undoBtn.setDisable(true);
-        }
+//        if (saveList.size() == 0) {
+//            undoBtn.setDisable(true);
+//        }
 
     }
 
     void turnComputer (int i , int j){
 
 
+
+        deactiveUndo();
 
         String current;
         if (currentTurn == Color.black) {
@@ -548,6 +535,7 @@ public class AI implements Initializable {
         setCanSelectedBtn();
         new Jello(buttonArr[i][j]).play();
 
+        activeUndo();
 
     }
 
@@ -569,7 +557,7 @@ public class AI implements Initializable {
                                 }
                             }
                             saveList.add(newStringScreen);
-                            undoBtn.setDisable(false);
+                           // undoBtn.setDisable(false);
 
 
 
@@ -613,20 +601,32 @@ public class AI implements Initializable {
 
                             int randomIndex = random.nextInt(canSelected.size());
 
-                            turnComputer(canSelected.get(randomIndex).getI() , canSelected.get(randomIndex).getJ());
+
+                            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+
+
+
+                                @Override
+                                public void handle(ActionEvent event) {
+
+                                    turnComputer(canSelected.get(randomIndex).getI() , canSelected.get(randomIndex).getJ());
+
+                                }
+
+
+                            }));
+                            timeline.play();
+                            deactiveUndo();
+                            deactiveButtons();
+                            timeline.setOnFinished(event1 -> {
+
+                                activeUndo();
+                                activeButtons();
+                            });
+
+
 
                             new Jello(button).play();
-
-
-//                            for (int k = 0; k < 1000000; k++) {
-//
-//                                System.out.println(k);
-//                            }
-//                            try {
-//                                Thread.sleep(1500);
-//                            } catch (InterruptedException e) {
-//                                e.printStackTrace();
-//                            }
 
 
                         }
@@ -635,6 +635,22 @@ public class AI implements Initializable {
 
     }
 
+    void deactiveButtons () {
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                buttonArr[i][j].setDisable(true);
+            }
+        }
+    }
+    void activeButtons () {
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                buttonArr[i][j].setDisable(false);
+            }
+        }
+    }
     void countScore (){
 
         blackScore = 0;
@@ -708,6 +724,14 @@ public class AI implements Initializable {
         }
     }
 
+    void deactiveUndo () {
+
+        undoBtn.setDisable(true);
+    }
+    void activeUndo () {
+
+        undoBtn.setDisable(false);
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

@@ -654,21 +654,6 @@ public class Game  {
         undoBtn.setStyle("-fx-background-image: url('/Images/undo.png')");
         sendBTN.setStyle("-fx-background-image: url('/Images/send.png')");
 
-      //  stackPane.setStyle("-fx-background-color: #00A000");
-      //   stackPane.setStyle("-fx-background-image: url('/Images/green.jpg')");
-
-//        MediaView mediaView = new MediaView();
-//        stackPane.getChildren().add(mediaView);
-//        mediaView.fitHeightProperty().bind(stackPane.heightProperty());
-//        mediaView.fitWidthProperty().bind(stackPane.widthProperty());
-//
-//
-//        File file = new File("C:/Users/AmirHosein/OneDrive/Desktop/gif");
-//        String mediaUrl = file.toURI().toString();
-//        Media media = new Media(mediaUrl);
-//        MediaPlayer mediaPlayer = new MediaPlayer(media);
-//        mediaView.setMediaPlayer(mediaPlayer);
-
 
         // fill the arrs
         for (int i = 0; i < size; i++) {
@@ -863,6 +848,7 @@ public class Game  {
                 "v1.0.0");
 
         alert.show();
+
 
 
     }
