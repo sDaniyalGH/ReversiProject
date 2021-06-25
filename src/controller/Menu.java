@@ -7,11 +7,11 @@ import javafx.fxml.Initializable;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Users;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -40,13 +40,14 @@ public class Menu implements Initializable {
     @FXML private Label computerLabel;
     @FXML private Button startGameBTN2;
     @FXML private AnchorPane anchorPane;
+    @FXML private TableView<Users> tableView;
+    @FXML private Tab leaderBoard;
     private ArrayList<Users> allUsers2v2;
     private ArrayList<Users> allUsersComputer ;
     public static ArrayList<Users> listOfSortedUsers ;
 
 
     // private ArrayList<Users> users;   // for 2v2 mode and computer mode
-
 
     public void getUsersList (ArrayList<Users> allUsers2v2){
         this.allUsers2v2 = allUsers2v2;
@@ -88,21 +89,25 @@ public class Menu implements Initializable {
         }
     }
 
-    @FXML void leaderboardClick2v2 () throws IOException {
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/TopScores.fxml"));
-        loader.load();
+    // leaderboard setting ***************************************************
 
-        Stage stage = new Stage();
-        Scene scene = new Scene(loader.getRoot());
-        stage.setScene(scene);
-        stage.setTitle("Leaderboard");
-        TopScores controller = loader.getController();
+    public void initializee(ArrayList<Users> listOfUsers) {
 
-        sortUsers2v2();
-        stage.show();
-        controller.initializee(listOfSortedUsers);
+        if (tableView.getColumns().isEmpty()) {
+            TableColumn<Users, String> username = new TableColumn<>("Username");
+            TableColumn<Users, Integer> score = new TableColumn<>("High Score");
 
+            username.setCellValueFactory(new PropertyValueFactory<>("username"));
+            score.setCellValueFactory(new PropertyValueFactory<>("highScore"));
 
+            tableView.getColumns().add(username);
+            tableView.getColumns().add(score);
+        }
+        // to prevent duplicate users
+        tableView.getItems().clear();
+        for (Users eachUser : listOfUsers) {
+            tableView.getItems().add(eachUser);
+        }
 
     }
 
@@ -130,8 +135,14 @@ public class Menu implements Initializable {
 
     }
 
+   // ************************************************************************
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+//       leaderBoard.setOnSelectionChanged(event -> {
+//           sortUsers2v2();
+//           initializee(listOfSortedUsers);
+//       });
 
 
         anchorPane.getStylesheets().add(String.valueOf(this.getClass().getResource("../Graphic/MenuGraphic.css")));

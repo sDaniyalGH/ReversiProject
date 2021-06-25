@@ -840,6 +840,8 @@ public class AI implements Initializable {
 
     @FXML void backClickedai () throws IOException {
 
+
+
         ((Stage)backBtnai.getScene().getWindow()).close();
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Menu.fxml"));
         loader.load();

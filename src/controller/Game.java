@@ -782,6 +782,13 @@ public class Game  {
     }
     public void loadInit(Scanner fileReader) {
 
+        backBtn.setStyle("-fx-background-image: url('/Images/back.png')");
+        saveBTN.setStyle("-fx-background-image: url('/Images/save.png')");
+        aboutBTN.setStyle("-fx-background-image: url('/Images/about.png')");
+        exitBTN.setStyle("-fx-background-image: url('/Images/exit.png')");
+        undoBtn.setStyle("-fx-background-image: url('/Images/undo.png')");
+        sendBTN.setStyle("-fx-background-image: url('/Images/send.png')");
+
         // fill the arrs
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -818,6 +825,8 @@ public class Game  {
 
 
         //   init screen and add buttons to gridPane
+        gridPane.setMaxWidth(560);
+        gridPane.setMaxHeight(560);
         gridPane.getChildren().clear();
 
         gridPane.setAlignment(Pos.CENTER);
@@ -845,6 +854,10 @@ public class Game  {
 
     @FXML void backClicked () throws IOException {
 
+        // this is for updating scores
+//        userBlack.setHighScore(blackScore);
+//        userWhite.setHighScore(whiteScore);
+
         ((Stage)backBtn.getScene().getWindow()).close();
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Menu.fxml"));
         loader.load();
@@ -856,8 +869,6 @@ public class Game  {
         controller.getUsersList(allUsers2v2 );
 
         stage.show();
-
-
 
 
     }
