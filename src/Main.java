@@ -1,11 +1,18 @@
+import controller.Menu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Users;
+
+import java.util.ArrayList;
 
 public class Main extends Application {
 
     // todo
+
+    public static ArrayList<Users> allUsers2v2;
+    public static ArrayList<Users> allUsersComputer ;
 
 
     // TODO: ۲۱/۰۶/۲۰۲۱ winnig bashokooh
@@ -19,6 +26,8 @@ public class Main extends Application {
     // TODO: ۲۱/۰۶/۲۰۲۱ big text that show turn is black or white
 
     public static void main(String[] args) {
+        allUsers2v2 = new ArrayList<>();
+        allUsersComputer = new ArrayList<>();
         launch(args);
     }
 
@@ -26,16 +35,18 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(this.getClass().getResource("view/Menu.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("view/Menu.fxml"));
         loader.load();
         Scene scene = new Scene(loader.getRoot());
         primaryStage.setScene(scene);
-        primaryStage.widthProperty().addListener((observable, oldValue, newValue) -> {
-
-
-
-        });
+//        primaryStage.widthProperty().addListener((observable, oldValue, newValue) -> {
+//
+//
+//
+//        });
         primaryStage.setTitle("Login menu");
         primaryStage.show();
+        Menu controller = loader.getController();
+        controller.getUsersList(allUsers2v2 );
     }
 }

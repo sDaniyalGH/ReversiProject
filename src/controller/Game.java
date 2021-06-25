@@ -42,12 +42,12 @@ public class Game  {
     private Button[][] buttonArr = new Button[size][size];
     ArrayList<CellNeighbor> hamsayeHa = new ArrayList<>();
     ArrayList<CellNeighbor> canSelected = new ArrayList<>();
-    int whiteScore = 0;
-    int blackScore = 0;
+    int whiteScore = 2;
+    int blackScore = 2;
     private ArrayList<String[][]> saveList = new ArrayList<>();
     @FXML private Button undoBtn;
-    public Users userBlack = new Users("","",0);
-    public Users userWhite = new Users("","",0);
+    public Users userBlack = new Users("","");
+    public Users userWhite = new Users("","");
     @FXML private ListView msgListView;
     @FXML private TextField msgTextField;
     @FXML private VBox vBoxRight;
@@ -58,6 +58,9 @@ public class Game  {
     @FXML private Button sendBTN;
     @FXML private StackPane stackPane;
     @FXML private MediaView mediaView;
+    private ArrayList<Users> allUsers2v2;
+    private ArrayList<Users> allUsersComputer ;
+
 
     void getUsers(Users userBlack , Users userWhite){
 
@@ -67,8 +70,8 @@ public class Game  {
         this.blackUserName.setText(userBlack.getUsername());
         this.whiteUserName.setText(userWhite.getUsername());
 
-        this.blackScoreTV.setText(String.valueOf(userBlack.getScore()));
-        this.whiteScoreTV.setText(String.valueOf(userWhite.getScore()));
+        this.blackScoreTV.setText(String.valueOf(blackScore));
+        this.whiteScoreTV.setText(String.valueOf(whiteScore));
 
 
     }
@@ -500,6 +503,12 @@ public class Game  {
 
     }
 
+    public void getListOfUsers (ArrayList<Users> allUsers2v2 ) {
+
+        this.allUsers2v2 = allUsers2v2;
+       // this.allUsersComputer = allUsersComputer;
+
+    }
 
     @FXML void undoClick(MouseEvent event) {
 
@@ -623,6 +632,16 @@ public class Game  {
 
     }
 
+    void highScore (){
+
+        if (blackScore > userBlack.getHighScore())
+            userBlack.setHighScore(blackScore);
+
+        if (whiteScore > userWhite.getHighScore())
+            userWhite.setHighScore(whiteScore);
+
+
+    }
     void countScore (){
 
         blackScore = 0;
@@ -659,6 +678,7 @@ public class Game  {
             }
 
             alert.show();
+            highScore();
         }
 
         if (whiteScore == 0){
@@ -668,6 +688,8 @@ public class Game  {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Black wins");
             alert.show();
+            highScore();
+
 
         }
         else if (blackScore == 0){
@@ -677,6 +699,8 @@ public class Game  {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("white wins");
             alert.show();
+            highScore();
+
 
         }
 
@@ -742,13 +766,10 @@ public class Game  {
 
 
 
-            stringScreen[3][3] = "w";
-            stringScreen[4][4] = "w";
-            stringScreen[3][4] = "b";
-            stringScreen[4][3] = "w";
-            stringScreen[4][2] = "w";
-            stringScreen[5][2] = "b";
-            stringScreen[5][3] = "w";
+        stringScreen[3][3] = "b";
+        stringScreen[4][4] = "b";
+        stringScreen[3][4] = "w";
+        stringScreen[4][3] = "w";
 
 
 
@@ -788,8 +809,8 @@ public class Game  {
             currentTurn = Color.white;
 
         fileReader.close();
-        userBlack = new Users(usernameBlack , "Black" , 0);
-        userWhite = new Users(usernameWhite , "White" , 0);
+        userBlack = new Users(usernameBlack , "Black" );
+        userWhite = new Users(usernameWhite , "White");
 
 
         getUsers(userBlack , userWhite);
@@ -830,6 +851,9 @@ public class Game  {
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.getRoot()));
         stage.setTitle("Reversi");
+
+        Menu controller = loader.getController();
+        controller.getUsersList(allUsers2v2 );
 
         stage.show();
 

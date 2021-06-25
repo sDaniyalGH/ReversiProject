@@ -45,12 +45,12 @@ public class AI implements Initializable {
     int blackScore = 0;
     private ArrayList<String[][]> saveList = new ArrayList<>();
     @FXML private Button undoBtn;
-    public Users player = new Users("","",0);
-    public Users computer = new Users("Computer","",0);
+    public Users player = new Users("","");
+    public Users computer = new Users("Computer","");
     @FXML private Button  backBtnai;
     @FXML private Button  aboutBTN;
     @FXML private Button exitBTN;
-
+    ArrayList<Users> allUsers2v2;
 
     void getUsers(Users player){
 
@@ -592,6 +592,13 @@ public class AI implements Initializable {
 
     }
 
+    public void getListOfUsers (ArrayList<Users> allUsers2v2 ) {
+
+        this.allUsers2v2 = allUsers2v2;
+        // this.allUsersComputer = allUsersComputer;
+
+    }
+
     void buttonClicked(Button button , int i , int j){
 
 
@@ -599,7 +606,7 @@ public class AI implements Initializable {
                     @Override
                     public void handle(ActionEvent event) {
 
-                        if (stringScreen[i][j].equals("c") && !currentTurn.equals(computer.getColor())){
+                        if (stringScreen[i][j].equals("c") && !currentTurn.equals(computer.getColor())) {
 
                             // save screen
                             String[][] newStringScreen = new String[size][size];
@@ -610,9 +617,7 @@ public class AI implements Initializable {
                                 }
                             }
                             saveList.add(newStringScreen);
-                           // undoBtn.setDisable(false);
-
-
+                            // undoBtn.setDisable(false);
 
 
                             String current;
@@ -623,26 +628,26 @@ public class AI implements Initializable {
                             } else {
                                 current = "w";
                             }
-                                stringScreen[i][j] = current;
+                            stringScreen[i][j] = current;
 
 
-                                // reversed
-                                for (CellNeighbor eachNeighbor  : canSelected) {
-                                    if (eachNeighbor.getI() == i && eachNeighbor.getJ() == j){
+                            // reversed
+                            for (CellNeighbor eachNeighbor : canSelected) {
+                                if (eachNeighbor.getI() == i && eachNeighbor.getJ() == j) {
 
 
-                                        for (CellNeighbor reversedCells : eachNeighbor.getReverseBaze()) {
-                                            stringScreen[reversedCells.getI()][reversedCells.getJ()] = current;
-                                            new Jello(buttonArr[reversedCells.getI()][reversedCells.getJ()]).play();
+                                    for (CellNeighbor reversedCells : eachNeighbor.getReverseBaze()) {
+                                        stringScreen[reversedCells.getI()][reversedCells.getJ()] = current;
+                                        new Jello(buttonArr[reversedCells.getI()][reversedCells.getJ()]).play();
 
-                                        }
-                                        break;
                                     }
+                                    break;
                                 }
-                                toggleTurn();
+                            }
+                            toggleTurn();
 
 
-                             // canSelected -->empty
+                            // canSelected -->empty
                             CStoEmpty();
                             syncArrs();
                             hamsayeHa.clear();
@@ -652,17 +657,18 @@ public class AI implements Initializable {
 
                             Random random = new Random();
 
+
+                             if (canSelected.size() > 0){
                             int randomIndex = random.nextInt(canSelected.size());
 
 
                             Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
 
 
-
                                 @Override
                                 public void handle(ActionEvent event) {
 
-                                    turnComputer(canSelected.get(randomIndex).getI() , canSelected.get(randomIndex).getJ());
+                                    turnComputer(canSelected.get(randomIndex).getI(), canSelected.get(randomIndex).getJ());
 
                                 }
 
@@ -676,10 +682,10 @@ public class AI implements Initializable {
                             });
 
 
-
                             new Jello(button).play();
 
 
+                        }
                         }
                     }
                 });
@@ -840,6 +846,10 @@ public class AI implements Initializable {
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.getRoot()));
         stage.setTitle("Reversi");
+
+        Menu controller = loader.getController();
+
+        controller.getUsersList(allUsers2v2 );
 
         stage.show();
 
