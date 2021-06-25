@@ -50,23 +50,18 @@ public class AI implements Initializable {
     @FXML private Button  backBtnai;
     @FXML private Button  aboutBTN;
     @FXML private Button exitBTN;
+    @FXML private Label label;
     ArrayList<Users> allUsers2v2;
+    Timeline timeline;
 
     void getUsers(Users player){
 
             this.player = player;
 
-            if (player.getColor().equals(Color.black)) {
-                computer.setColor(Color.white);
-                blackUserName.setText(player.getUsername());
-                whiteUserName.setText(computer.getUsername());
-            }
-            else {
-                computer.setColor(Color.black);
-                whiteUserName.setText(player.getUsername());
-                blackUserName.setText(computer.getUsername());
+            computer.setColor(Color.black);
+            whiteUserName.setText(player.getUsername());
+            blackUserName.setText(computer.getUsername());
 
-            }
             currentTurn = player.getColor();
     }
 
@@ -152,7 +147,11 @@ public class AI implements Initializable {
 
     }
 
-    void setCanSelectedBtn(){
+    void setCanSelectedBtn() throws InterruptedException {
+
+
+        if (currentTurn.equals(Color.white))
+            label.setText("");
 
         String current;
         String zed;
@@ -453,17 +452,52 @@ public class AI implements Initializable {
 
             String msg = "Turn Passed !! turn : ";
 
-            if (currentTurn == Color.black)
+            if (currentTurn == Color.black) {
                 msg += "black";
-            else
-                msg += "white";
-            alert.setContentText(msg);
-            alert.showAndWait();
-            if (alert.getResult().equals(ButtonType.OK)){
-                setCanSelectedBtn();
-                countScore();
 
             }
+            else {
+                msg += "white";
+                timeline.stop();
+
+
+            }
+
+            alert.setContentText(msg);
+            try {
+                //Thread.sleep(500);
+                alert.showAndWait();
+               // System.out.println(currentTurn.toString());
+
+            } catch (Exception e){
+
+                System.out.println("Turn Passed !! turn : black");
+                label.setText("Turn Passed !! turn : black");
+                Thread.sleep(1000);
+                currentTurn = Color.black;
+                //toggleTurn();
+                computer.setColor(Color.black);
+                player.setColor(Color.white);
+                setCanSelectedBtn();
+                countScore();
+                turnComputer(canSelected.get(0).getI() , canSelected.get(0).getJ());
+
+                toggleTurn();
+
+            }
+            try {
+                if (alert.getResult().equals(ButtonType.OK)){
+
+                    //toggleTurn();
+                    computer.setColor(Color.black);
+                    player.setColor(Color.white);
+                    setCanSelectedBtn();
+                    countScore();
+                    //toggleTurn();
+
+                }
+
+            } catch (Exception e){}
 
         }
 
@@ -495,6 +529,7 @@ public class AI implements Initializable {
         }
 
 
+
 //                    Image img = new Image("/Images/black.png");
 //                    ImageView view = new ImageView(img);
 //                    buttonArr[i][j].setGraphic(view);
@@ -505,7 +540,7 @@ public class AI implements Initializable {
 
 
     // TODO: ۲۲/۰۶/۲۰۲۱ 2 ta bere aghab
-    @FXML void undoClick(MouseEvent event) {
+    @FXML void undoClick(MouseEvent event) throws InterruptedException {
 
         Color thisTurn = currentTurn;
         if (saveList.size() > 0) {
@@ -544,7 +579,7 @@ public class AI implements Initializable {
 
     }
 
-    void turnComputer (int i , int j){
+    void turnComputer (int i , int j) throws InterruptedException {
 
 
 
@@ -595,7 +630,6 @@ public class AI implements Initializable {
     public void getListOfUsers (ArrayList<Users> allUsers2v2 ) {
 
         this.allUsers2v2 = allUsers2v2;
-        // this.allUsersComputer = allUsersComputer;
 
     }
 
@@ -653,22 +687,33 @@ public class AI implements Initializable {
                             hamsayeHa.clear();
                             canSelected.clear();
                             countScore();
-                            setCanSelectedBtn();
+                            try {
+                                setCanSelectedBtn();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
                             Random random = new Random();
 
 
-                             if (canSelected.size() > 0){
+                            if (canSelected.size() > 0 && currentTurn.equals(Color.black)){
                             int randomIndex = random.nextInt(canSelected.size());
 
 
-                            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() {
+                            timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
 
 
                                 @Override
                                 public void handle(ActionEvent event) {
 
-                                    turnComputer(canSelected.get(randomIndex).getI(), canSelected.get(randomIndex).getJ());
+
+                                    try {
+
+                                        if (currentTurn.equals(Color.black))
+                                            turnComputer(canSelected.get(randomIndex).getI(), canSelected.get(randomIndex).getJ());
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
 
                                 }
 
@@ -676,6 +721,7 @@ public class AI implements Initializable {
                             }));
                             timeline.play();
                             deactiveUndo();
+
                             timeline.setOnFinished(event1 -> {
 
                                 activeUndo();
@@ -728,6 +774,7 @@ public class AI implements Initializable {
             }
 
             alert.show();
+            deactiveUndo ();
         }
 
         if (whiteScore == 0){
@@ -737,6 +784,7 @@ public class AI implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("Black wins");
             alert.show();
+            deactiveUndo ();
 
         }
         else if (blackScore == 0){
@@ -746,6 +794,7 @@ public class AI implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setContentText("white wins");
             alert.show();
+            deactiveUndo ();
 
         }
 
@@ -769,12 +818,18 @@ public class AI implements Initializable {
 
         undoBtn.setDisable(true);
     }
+
     void activeUndo () {
 
         undoBtn.setDisable(false);
     }
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+
+    @Override public void initialize(URL location, ResourceBundle resources) {
+
+        currentTurn = player.getColor();
+
+        computer.setColor(Color.black);
+
 
         backBtnai.setStyle("-fx-background-image: url('/Images/back.png')");
        // saveBTN.setStyle("-fx-background-image: url('/Images/save.png')");
@@ -828,10 +883,16 @@ public class AI implements Initializable {
             stringScreen[4][3] = "w";
 
 
+        try {
 
             setCanSelectedBtn();
-            countScore();
 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        countScore();
+
+        currentTurn = player.getColor();
 
 
 

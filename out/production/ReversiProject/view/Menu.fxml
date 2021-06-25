@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Menu">
+<AnchorPane fx:id="anchorPane" focusTraversable="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.Menu">
     <children>
         <VBox alignment="CENTER" layoutX="27.0" layoutY="80.0" prefHeight="470.0" prefWidth="499.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="51.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="70.0">
             <children>
@@ -127,15 +127,6 @@
                                                             </font>
                                                         </Label>
                                                         <TextField fx:id="playerUsername" promptText="username" />
-                                                        <MenuButton fx:id="playerColor" mnemonicParsing="false" text="Select Color">
-                                                            <items>
-                                                                <MenuItem fx:id="playerBlack" mnemonicParsing="false" text="Black" />
-                                                                <MenuItem fx:id="playerWhite" mnemonicParsing="false" text="White" />
-                                                            </items>
-                                                            <font>
-                                                                <Font name="System Bold" size="12.0" />
-                                                            </font>
-                                                        </MenuButton>
                                                     </children>
                                                 </HBox>
                                                 <Label fx:id="computerLabel" alignment="CENTER" textFill="RED" />

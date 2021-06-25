@@ -74,6 +74,7 @@
                         </VBox>
                         <VBox fx:id="vBoxRight" alignment="CENTER" prefHeight="628.0" prefWidth="100.0" spacing="10.0">
                             <children>
+                        <Label fx:id="label" />
                                 <Button fx:id="backBtnai" mnemonicParsing="false" onAction="#backClickedai" prefHeight="30.0" prefWidth="30.0" />
                                 <Button fx:id="aboutBTN" mnemonicParsing="false" onAction="#aboutBtnClickedai" prefHeight="30.0" prefWidth="30.0" />
                                 <Button fx:id="exitBTN" mnemonicParsing="false" onAction="#exitBtnai" prefHeight="30.0" prefWidth="30.0" />

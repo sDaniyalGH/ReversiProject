@@ -34,9 +34,6 @@ public class Menu implements Initializable {
     @FXML private Button startGameBTN1;
     @FXML private Tab withComputer;
     @FXML private TextField playerUsername;
-    @FXML private MenuButton playerColor;
-    @FXML private MenuItem playerBlack;
-    @FXML private MenuItem playerWhite;
     @FXML private Label computerLabel;
     @FXML private Button startGameBTN2;
     @FXML private AnchorPane anchorPane;
@@ -187,8 +184,8 @@ public class Menu implements Initializable {
 
         startGameBTN2.setOnAction(event -> selectComputerMode());
 
-        playerBlack.setOnAction(event -> playerColor.setText(playerBlack.getText()));
-        playerWhite.setOnAction(event -> playerColor.setText(playerWhite.getText()));
+        //playerBlack.setOnAction(event -> playerColor.setText(playerBlack.getText()));
+        //playerWhite.setOnAction(event -> playerColor.setText(playerWhite.getText()));
 
     }
 
@@ -269,9 +266,9 @@ public class Menu implements Initializable {
     public void selectComputerMode(){
 
         if (withComputer.isSelected()){
-            if (checkIsUserEmptyComputerMode() && checkIsSelectedColorComputerMode()){
+            if (checkIsUserEmptyComputerMode() ){
                 //users = new ArrayList<>();
-                Users user = new Users(playerUsername.getText(), playerColor.getText());
+                Users user = new Users(playerUsername.getText(), "White");
 
                 // TODO: ۲۱/۰۶/۲۰۲۱ continue
 
@@ -357,16 +354,16 @@ public class Menu implements Initializable {
         }
     }
 
-    public boolean checkIsSelectedColorComputerMode(){
-
-        if (!(playerColor.getText().equals("Select Color"))){
-            return true;
-        }
-        else {
-            computerLabel.setText("Pick an color!");
-            return false;
-        }
-
-    }
+//    public boolean checkIsSelectedColorComputerMode(){
+//
+//        if (!(playerColor.getText().equals("Select Color"))){
+//            return true;
+//        }
+//        else {
+//            computerLabel.setText("Pick an color!");
+//            return false;
+//        }
+//
+//    }
 
 }

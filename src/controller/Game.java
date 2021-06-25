@@ -59,7 +59,6 @@ public class Game  {
     @FXML private StackPane stackPane;
     @FXML private MediaView mediaView;
     private ArrayList<Users> allUsers2v2;
-    private ArrayList<Users> allUsersComputer ;
 
 
     void getUsers(Users userBlack , Users userWhite){
@@ -693,6 +692,8 @@ public class Game  {
 
             alert.show();
             highScore();
+            undoBtn.setDisable(true);
+
         }
 
         if (whiteScore == 0){
@@ -703,6 +704,8 @@ public class Game  {
             alert.setContentText("Black wins");
             alert.show();
             highScore();
+            undoBtn.setDisable(true);
+
 
 
         }
@@ -714,6 +717,8 @@ public class Game  {
             alert.setContentText("white wins");
             alert.show();
             highScore();
+            undoBtn.setDisable(true);
+
 
 
         }
