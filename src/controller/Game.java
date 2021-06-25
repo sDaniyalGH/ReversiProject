@@ -634,11 +634,25 @@ public class Game  {
 
     void highScore (){
 
-        if (blackScore > userBlack.getHighScore())
-            userBlack.setHighScore(blackScore);
 
-        if (whiteScore > userWhite.getHighScore())
-            userWhite.setHighScore(whiteScore);
+        for (Users each : allUsers2v2) {
+
+            if (userBlack.getUsername().equals(each.getUsername())){
+                if (blackScore > each.getHighScore())
+                    each.setHighScore(blackScore);
+                break;
+            }
+        }
+
+
+        for (Users each : allUsers2v2) {
+
+            if (userWhite.getUsername().equals(each.getUsername())) {
+                if (whiteScore > each.getHighScore())
+                    each.setHighScore(whiteScore);
+            }
+
+        }
 
 
     }
@@ -780,7 +794,7 @@ public class Game  {
 
 
     }
-    public void loadInit(Scanner fileReader) {
+    public void loadInit(Scanner fileReader , String[][] loadScreen , String usernameBlack , String usernameWhite , String turn) {
 
         backBtn.setStyle("-fx-background-image: url('/Images/back.png')");
         saveBTN.setStyle("-fx-background-image: url('/Images/save.png')");
@@ -798,18 +812,13 @@ public class Game  {
                 button.setPrefHeight(Double.MAX_VALUE);
                 buttonArr[i][j] = button;
 
-                // if buuton clicked
+                // if button clicked
                 buttonClicked(button , i , j );
 
-                String data = fileReader.next();
-                stringScreen[i][j] = data;
+                stringScreen[i][j] = loadScreen[i][j];
 
             }
         }
-        String usernameBlack = fileReader.next();
-        String usernameWhite = fileReader.next();
-
-        String turn = fileReader.next();
         if (turn.equals("black"))
             currentTurn = Color.black;
         else
@@ -854,9 +863,6 @@ public class Game  {
 
     @FXML void backClicked () throws IOException {
 
-        // this is for updating scores
-//        userBlack.setHighScore(blackScore);
-//        userWhite.setHighScore(whiteScore);
 
         ((Stage)backBtn.getScene().getWindow()).close();
         FXMLLoader loader = new FXMLLoader(this.getClass().getResource("../view/Menu.fxml"));

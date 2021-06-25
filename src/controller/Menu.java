@@ -52,12 +52,15 @@ public class Menu implements Initializable {
     public void getUsersList (ArrayList<Users> allUsers2v2){
         this.allUsers2v2 = allUsers2v2;
 
-
     }
+
     @FXML
     void loadBtnClicked(ActionEvent event) throws IOException {
 
 
+        String[][] loadString = new String[8][8];
+
+        // TODO: ۲۵/۰۶/۲۰۲۱ if file namarboot ---> error
         FileChooser fileChooser = new FileChooser();
 
         // must choose txt file
@@ -84,7 +87,25 @@ public class Menu implements Initializable {
             stage.show();
             Game controller = loader.getController();
 
-            controller.loadInit(fileReader);
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+
+                    loadString[i][j] = fileReader.next();
+
+
+                }
+            }
+            String usernameBlack = fileReader.next();
+            String usernameWhite = fileReader.next();
+            String turn = fileReader.next();
+
+            fileReader.close();
+
+            addUsersToList (controller , usernameBlack , usernameWhite );
+
+            controller.loadInit(fileReader , loadString , usernameBlack , usernameWhite , turn);
+            controller.getListOfUsers(allUsers2v2 );
+
 
         }
     }
@@ -139,10 +160,10 @@ public class Menu implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-//       leaderBoard.setOnSelectionChanged(event -> {
-//           sortUsers2v2();
-//           initializee(listOfSortedUsers);
-//       });
+       leaderBoard.setOnSelectionChanged(event -> {
+           sortUsers2v2();
+           initializee(listOfSortedUsers);
+       });
 
 
         anchorPane.getStylesheets().add(String.valueOf(this.getClass().getResource("../Graphic/MenuGraphic.css")));
@@ -181,45 +202,7 @@ public class Menu implements Initializable {
                 //Users user1 = new Users(player1Username.getText(), player1Color.getText());
                 //Users user2 = new Users(player2Username.getText(), player2Color.getText());
 
-                Users user1 = null;
-                Users user2 = null;
-
-                boolean status1 = false;
-                for (Users each : allUsers2v2) {
-
-                    if (each.getUsername().equals(player1Username.getText())){
-                        status1 = true;
-                        user1 = each;
-                        break;
-                    }
-                }
-
-                boolean status2 = false;
-                for (Users each : allUsers2v2) {
-
-                    if (each.getUsername().equals(player2Username.getText())){
-                        status2 = true;
-                        user2 = each;
-                        break;
-                    }
-                }
-
-                if (!status1) {
-                    user1 = new Users(player1Username.getText(), player1Color.getText());
-                    allUsers2v2.add(user1);
-                }
-                if (!status2) {
-                    user2 = new Users(player2Username.getText(), player2Color.getText());
-                    allUsers2v2.add(user2);
-                }
-
-
-                if (user1.getColor().equals(Color.black))
-                    controller.getUsers(user1 , user2);
-
-                else
-                    controller.getUsers(user2 , user1);
-
+                addUsersToList (controller , player1Username.getText() , player2Username.getText());
                 dualPersonLabel.setText("");
 
                 ((Stage)startGameBTN2.getScene().getWindow()).close();
@@ -238,6 +221,48 @@ public class Menu implements Initializable {
 
     }
 
+    void addUsersToList (Game controller , String username1 , String username2){
+        Users user1 = null;
+        Users user2 = null;
+
+        boolean status1 = false;
+        for (Users each : allUsers2v2) {
+
+            if (each.getUsername().equals(username1)){
+                status1 = true;
+                user1 = each;
+                break;
+            }
+        }
+
+        boolean status2 = false;
+        for (Users each : allUsers2v2) {
+
+            if (each.getUsername().equals(username2)){
+                status2 = true;
+                user2 = each;
+                break;
+            }
+        }
+
+        if (!status1) {
+            user1 = new Users(username1, player1Color.getText());
+            allUsers2v2.add(user1);
+        }
+        if (!status2) {
+            user2 = new Users(username2, player2Color.getText());
+            allUsers2v2.add(user2);
+        }
+
+
+        if (user1.getColor().equals(Color.black))
+            controller.getUsers(user1 , user2);
+
+        else
+            controller.getUsers(user2 , user1);
+
+
+    }
     public void selectComputerMode(){
 
         if (withComputer.isSelected()){
