@@ -161,10 +161,13 @@ public class Menu implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
        leaderBoard.setOnSelectionChanged(event -> {
-           sortUsers2v2();
-           initializee(listOfSortedUsers);
+           if (!(allUsers2v2.isEmpty())){
+               if (!(allUsers2v2.get(0).getHighScore() == 0 && allUsers2v2.get(1).getHighScore() == 0)) {
+                   sortUsers2v2();
+                   initializee(listOfSortedUsers);
+               }
+           }
        });
-
 
         anchorPane.getStylesheets().add(String.valueOf(this.getClass().getResource("../Graphic/MenuGraphic.css")));
 
